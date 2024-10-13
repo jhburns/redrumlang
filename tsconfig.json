@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "strict": true,
+        "target": "ESNext",
+        "lib": [
+            "ESNext",
+            "DOM"
+        ],
+        "moduleResolution": "Bundler",
+        "forceConsistentCasingInFileNames": true,
+        "useUnknownInCatchVariables": true,
+        "noImplicitOverride": true,
+        "verbatimModuleSyntax": true,
+        "skipLibCheck": true,
+        "allowJs": false,
+        "noFallthroughCasesInSwitch": false,
+        "esModuleInterop": false,
+        "paths": {
+            "src/*": [
+                "src/*"
+            ],
+            "lib/*": [
+                "lib/*"
+            ]
+        },
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "baseUrl": "."
+    },
+    "include": [
+        "src",
+        "src/redrumlang.ts"
+    ]
+}
