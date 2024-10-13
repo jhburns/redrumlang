@@ -3,10 +3,15 @@
   "version": "0.0.1",
   "description": "spooky scary language",
   "main": "src/redrumlang.js",
-  "author": "jburns867@gmail.com",
+  "author": "Jonathan Burns",
   "license": "MIT",
   "private": false,
+  "type": "module",
   "scripts": {
-    "start": "node src/redrumlang"
+    "parser": "peggy -o lib/parser.js --format es src/parser.peggy",
+    "start": "yarn parser; node src/redrumlang"
+  },
+  "dependencies": {
+    "peggy": "^4.1.1"
   }
 }
