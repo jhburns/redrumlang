@@ -1,0 +1,1 @@
+export type Ast = number | { left: Ast, tag: 'add' | 'mul', right: Ast };

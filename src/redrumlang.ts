@@ -1,4 +1,5 @@
 // If there is a typing error, generate the parser first
-import { parse } from '../lib/parser.js'
+import { parse } from 'lib/parser.js';
+import walk from 'src/walk';
 
-console.log(parse('2*(3+4)'));
+console.log(walk(parse('2*(3+4)')));

@@ -4,6 +4,6 @@ export default {
     format: "es",
     dts: true,
     returnTypes: {
-        redrum: "number",
+        redrum: "Ast",
     },
 };

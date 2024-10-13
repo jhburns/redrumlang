@@ -9,7 +9,7 @@
   "type": "module",
   "scripts": {
     "parser": "peggy -c peggy.js",
-    "check": "yarn tsc",
+    "check": "yarn tsc src/redrumlang.ts",
     "launch": "yarn tsx src/redrumlang",
     "start": "yarn parser; yarn check; yarn launch"
   },
