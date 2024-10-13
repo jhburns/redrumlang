@@ -1,0 +1,12 @@
+{
+  "name": "redrumlang",
+  "version": "0.0.1",
+  "description": "spooky scary language",
+  "main": "src/redrumlang.js",
+  "author": "jburns867@gmail.com",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node src/redrumlang"
+  }
+}
