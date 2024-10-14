@@ -37,6 +37,6 @@ od {c, b ,a}elpmaxe fed
 */
 export type Ast = {
     name: Ident,
-    parameters: Ident[],
+    params: Ident[],
     body: Stats,
 };

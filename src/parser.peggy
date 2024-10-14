@@ -1,11 +1,22 @@
-statements "statements"
-  = statement|.., _ ";" _|
+function "function(s)"
+  = "def" _ body:statements _ "od" _ "{" _ params:paramlist _ "}" name:ident _ "fed" { return {
+      body,
+      params,
+      name,
+    }
+  }
+
+paramlist
+  = ident|.., _ ","|
+
+statements "statement(s)"
+  = statement|.., _ ";"|
 
 statement "statement"
   = let
-  / exprStat
   / loop
   / break
+  / exprStat
 
 let "let binding"
   = expr:expr _ "<-" _ name:ident _ "tel" { return { 
@@ -22,9 +33,9 @@ exprStat
   }
 
 loop "loop"
-  = "pool" expr:expr "loop" { return {
+  = "pool" _ body:statements _ "loop" { return {
 	  tag: "loop",
-      expr,
+      body,
     }
   }
   
@@ -69,7 +80,7 @@ ident "identifier"
 
 // See "Parsinging Lists" here: https://peggyjs.org/documentation.html
 arglist "argument list"
-  = expr|.., _ "," _|
+  = expr|.., _ ","|
 
 apply "function application"
   = "{" _ args:arglist _ "}" calle:ident { return {
@@ -80,7 +91,7 @@ apply "function application"
   }
 
 if "if"
-  = "fi" _ onFalse:expr _ "esle" _ onTrue:expr _ "neht" _ cond:expr _ "fi" { return {
+  = "fi" _ onFalse:statements _ "esle" _ onTrue:statements _ "neht" _ cond:statements _ "fi" { return {
       tag: 'if',
       onFalse,
       onTrue,
