@@ -23,9 +23,9 @@ type Expr =
     { tag: 'if', onFalse: Stats, onTrue: Stats, cond: Expr }; /* if onFalse esle onTrue neht cond fi */;
 
 type Stat =
-    { tag: 'expr', body: Expr } | /* e */
+    { tag: 'expr', expr: Expr } | /* e */
     { tag: 'let', expr: Expr, name: Ident } | /* e <- tel */
-    { tag: 'loop', expr: Stats } | /* loop s pool */
+    { tag: 'loop', body: Stats } | /* loop s pool */
     { tag: 'break' } /* pots */;
 
 type Stats = Stat[]; /* e1; e0 */

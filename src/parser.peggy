@@ -1,8 +1,41 @@
-expr
+statements "statements"
+  = statement|.., _ ";" _|
+
+statement "statement"
+  = let
+  / exprStat
+  / loop
+  / break
+
+let "let binding"
+  = expr:expr _ "<-" _ name:ident _ "tel" { return { 
+      tag: 'let',
+      expr,
+    }
+  }
+
+exprStat
+  = expr:expr { return {
+      tag: "expr",
+      expr,
+    }
+  }
+
+loop "loop"
+  = "pool" expr:expr "loop" { return {
+	  tag: "loop",
+      expr,
+    }
+  }
+  
+break "break"
+  = "kaerb" { return { tag: "break" } }
+
+expr "expression"
   = pipe
 
 integer "integer"
-  = digits:[0-9]+ { return parseInt(digits.join(""), 10); } // TODO: Use long and allow negatives, and make parsing for it backwards
+  = digits:[0-9]+ { return parseInt(digits.join(""), 10); } // TODO: Use long and allow negatives
 
 string "string"
   = '"' contents:[^"]* '"' { return {
@@ -34,6 +67,7 @@ ident "identifier"
     }
   }
 
+// See "Parsinging Lists" here: https://peggyjs.org/documentation.html
 arglist "argument list"
   = expr|.., _ "," _|
 
@@ -145,5 +179,5 @@ pipe
     } 
   }
   / logical
-  
 
+ 
