@@ -18,7 +18,7 @@ type Expr =
     { tag: 'unit' } | /* Я */
     { tag: 'unaOp', opCode: UnaOpCode, expr: Expr, } |
     { tag: 'dosOp', left: Expr, opCode: DosOpCode, right: Expr } |
-    { tag: 'apply', args: Expr[], calle: Ident } | /* (c ,b ,a)f */
+    { tag: 'apply', args: Expr[], calle: Ident } | /* {c ,b ,a}f */
     Ident |
     { tag: 'if', onFalse: Stats, onTrue: Stats, cond: Expr }; /* if onFalse esle onTrue neht cond fi */;
 
@@ -33,7 +33,7 @@ type Stats = Stat[]; /* e1; e0 */
 /*
 def
   s
-od (c, b ,a)elpmaxe fed
+od {c, b ,a}elpmaxe fed
 */
 export type Ast = {
     name: Ident,

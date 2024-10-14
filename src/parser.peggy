@@ -1,8 +1,8 @@
-redrum
+expr
   = pipe
 
 integer "integer"
-  = digits:[0-9]+ { return parseInt(digits.join(""), 10); } // TODO: Use long and allow negatives
+  = digits:[0-9]+ { return parseInt(digits.join(""), 10); } // TODO: Use long and allow negatives, and make parsing for it backwards
 
 string "string"
   = '"' contents:[^"]* '"' { return {
@@ -27,16 +27,44 @@ unit "unit"
 _ "whitespace"
   = [ \t\n\r]*
 
+ident "identifier"
+  = name:[a-z_]+ { return {
+      tag: 'ident',
+      name: name.join(''),
+    }
+  }
+
+arglist "argument list"
+  = expr|.., _ "," _|
+
+apply "function application"
+  = "{" _ args:arglist _ "}" calle:ident { return {
+      tag: 'apply',
+      args,
+      calle,
+    }
+  }
+
+if "if"
+  = "fi" _ onFalse:expr _ "esle" _ onTrue:expr _ "neht" _ cond:expr _ "fi" { return {
+      tag: 'if',
+      onFalse,
+      onTrue,
+      cond
+    }
+  }
+
 primary
-  = integer / string / boolean/ unit
+  = integer / string / boolean / unit / apply / if
   / "(" _ expr:pipe _ ")" { return expr; }
-  / op:("ton" / "gen") _ left:shift { 
+  / op:("ton" / "gen") _ left:expr { 
       return { 
         tag: 'unaOp',
         opCode: op === 'ton' ? 'not' : 'gen',
         expr: left
       } 
     }
+  / ident
 
 shift
   = left:primary _ op:("<<" / ">>") _ right:shift { 
