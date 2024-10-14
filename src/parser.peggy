@@ -1,14 +1,34 @@
 redrum
   = pipe
 
-integer "simple number"
+integer "integer"
   = digits:[0-9]+ { return parseInt(digits.join(""), 10); } // TODO: Use long and allow negatives
+
+string "string"
+  = '"' contents:[^"]* '"' { return {
+      tag: 'string',
+      value: contents.reverse().join(''),
+    }
+  }
+
+boolean "boolean"
+  = value:('eurt' / 'eslaf') { return {
+      tag: 'boolean',
+      value: value === "eurt" ? true : false
+    }
+  }
+
+unit "unit"
+  = "Я" { return {
+      tag: 'unit',
+    }
+  } 
 
 _ "whitespace"
   = [ \t\n\r]*
 
 primary
-  = integer
+  = integer / string / boolean/ unit
   / "(" _ expr:pipe _ ")" { return expr; }
   / op:("ton" / "gen") _ left:shift { 
       return { 
@@ -55,7 +75,7 @@ equals
   = left:addSub _ op:("=" / ">" / "<" / "=>" / "=<") _ right:equals {
   	let opCode = null;
     
-     if (op === "=") {
+    if (op === "=") {
       opCode = '=';
     } else if (op === '>') {
       opCode = 'lessThan';
