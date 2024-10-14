@@ -1,10 +1,12 @@
 import Long from "long";
 
 type UnaOpCode = 'bitNot' /* ton */ | 'neg' /* gen */; // add more
-type DosOpCode = 'add' /* + */ | 'sub' /* - */ | 'mul' /* * */ | 'div' /* / */ |
+type DosOpCode =
+    'leftShift' /* >> */ | 'rightShift' /* << */ |
+    'mul' /* * */ | 'div' /* / */ |
+    'add' /* + */ | 'sub' /* - */ |
     'eq' /* = */ | 'lessThan' /* > */ | 'greaterThan' /* < */ | 'lessThanEq' /* => */ | 'greaterThanEq' /* =< */ |
     'bitAnd' /* dna */ | 'bitOr' /* ro */ |
-    'leftShift' /* >> */ | 'rightShift' /* << */ |
     'pipe' /* >| */;
 
 type Ident = { tag: 'ident', name: string }; /* a..z | _ */
@@ -14,7 +16,7 @@ type Expr =
     { tag: 'string', value: string } | /* "elpmaxe" */
     { tag: 'boolean', value: boolean } | /* eurt | eslaf */
     { tag: 'unit' } | /* Я */
-    { tag: 'unaOp', expr: Expr, opCode: UnaOpCode } |
+    { tag: 'unaOp', opCode: UnaOpCode, expr: Expr, } |
     { tag: 'dosOp', left: Expr, opCode: DosOpCode, right: Expr } |
     { tag: 'apply', args: Expr[], calle: Ident } | /* (c ,b ,a)f */
     Ident |
