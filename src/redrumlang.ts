@@ -4,8 +4,8 @@ import walk from 'src/walk';
 
 console.log(parse(`
 def
- ;2
- if
+ 2
+ ;if
    {n - 1}bif + {n - 2}bif 
  esle
    n
