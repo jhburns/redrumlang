@@ -31,6 +31,5 @@
     },
     "include": [
         "src",
-        "src/redrumlang.ts"
     ]
 }

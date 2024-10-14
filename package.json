@@ -2,16 +2,16 @@
   "name": "redrumlang",
   "version": "0.0.1",
   "description": "spooky scary language",
-  "main": "src/redrumlang.js",
+  "main": "src/redrumlang.ts",
   "author": "Jonathan Burns",
   "license": "MIT",
   "private": false,
   "type": "module",
   "scripts": {
     "parser": "peggy -c peggy.js",
-    "check": "yarn tsc src/redrumlang.ts",
+    "typecheck": "yarn tsc",
     "launch": "yarn tsx src/redrumlang",
-    "start": "yarn parser; yarn check; yarn launch"
+    "start": "yarn parser; yarn typecheck; yarn launch"
   },
   "dependencies": {
     "long": "^5.2.3",
