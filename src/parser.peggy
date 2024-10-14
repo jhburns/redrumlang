@@ -1,5 +1,5 @@
-function "function(s)"
-  = "def" _ body:statements _ "od" _ "{" _ params:paramlist _ "}" name:ident _ "fed" { return {
+function
+  = _ "def" _ body:statements _ "od" _ "{" _ params:paramlist _ "}" name:ident _ "fed" _ { return {
       body,
       params,
       name,
@@ -9,16 +9,16 @@ function "function(s)"
 paramlist
   = ident|.., _ ","|
 
-statements "statement(s)"
+statements
   = statement|.., _ ";"|
 
-statement "statement"
+statement
   = let
   / loop
   / break
   / exprStat
 
-let "let binding"
+let
   = expr:expr _ "<-" _ name:ident _ "tel" { return { 
       tag: 'let',
       expr,
@@ -32,21 +32,30 @@ exprStat
     }
   }
 
-loop "loop"
+loop
   = "pool" _ body:statements _ "loop" { return {
 	  tag: "loop",
       body,
     }
   }
   
-break "break"
+break
   = "kaerb" { return { tag: "break" } }
 
-expr "expression"
+expr
   = pipe
 
 integer "integer"
-  = digits:[0-9]+ { return parseInt(digits.join(""), 10); } // TODO: Use long and allow negatives
+  = digits:[0-9]+ sign:'-'? { 
+    const prefix = sign === '-'
+      ? "-"
+      : '';
+  
+    return { 
+      tag: 'integer',
+      value: prefix + digits.reverse().join("")
+    }
+  }
 
 string "string"
   = '"' contents:[^"]* '"' { return {

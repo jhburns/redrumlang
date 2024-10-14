@@ -2,4 +2,8 @@
 import { parse } from 'lib/parser.js';
 import walk from 'src/walk';
 
-console.log(walk(parse('2*(3+4)')));
+console.log(parse(`
+def
+ 12-
+od {a}foo fed
+`));
