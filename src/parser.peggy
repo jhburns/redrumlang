@@ -100,7 +100,7 @@ apply "function application"
   }
 
 if "if"
-  = "fi" _ onFalse:statements _ "esle" _ onTrue:statements _ "neht" _ cond:statements _ "fi" { return {
+  = "if" _ onFalse:statements _ "esle" _ onTrue:statements _ "neht" _ cond:statements _ "fi" { return {
       tag: 'if',
       onFalse,
       onTrue,
