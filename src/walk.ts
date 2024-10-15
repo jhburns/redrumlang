@@ -1,15 +1,7 @@
-import type { Ast } from 'src/ast';
+import type { Ast } from 'src/astify';
 
-const walk = (ast: Ast): number => {
-    if (typeof ast === 'number') {
-        return ast;
-    }
-
-    if (ast.tag === 'add') {
-        return walk(ast.left) + walk(ast.right);
-    }
-
-    return walk(ast.left) * walk(ast.right);
+const walk = (ast: Ast): string => {
+    return "TODO"
 };
 
 export default walk;

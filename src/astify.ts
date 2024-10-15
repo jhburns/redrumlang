@@ -1,4 +1,5 @@
-import Long from "long";
+// If there is a typing error, generate the parser first
+import { parse, SyntaxError as PeggySyntaxError } from 'lib/parser.js';
 
 type UnaOpCode = 'bitNot' /* ton */ | 'neg' /* gen */; // add more
 type DosOpCode =
@@ -12,7 +13,7 @@ type DosOpCode =
 type Ident = { tag: 'ident', name: string }; /* a..z | _ */
 
 type Expr =
-    { tag: 'integer', value: Long } | /* 012 */
+    { tag: 'integer', value: string } | /* 012 */
     { tag: 'string', value: string } | /* "elpmaxe" */
     { tag: 'boolean', value: boolean } | /* eurt | eslaf */
     { tag: 'unit' } | /* Я */
@@ -40,3 +41,17 @@ export type Ast = {
     params: Ident[],
     body: Stats,
 };
+
+const astify = (source: string): Ast | string => {
+    try {
+        return parse(source);
+    } catch (err: unknown) {
+        if (err instanceof PeggySyntaxError) {
+            return `Syntax Error: ${err.message}`;
+        }
+
+        throw err;
+    }
+}
+
+export default astify;

@@ -40,7 +40,7 @@ loop
   }
   
 break
-  = "kaerb" { return { tag: "break" } }
+  = "pots" { return { tag: "break" } }
 
 expr
   = pipe
