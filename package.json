@@ -14,6 +14,7 @@
     "interpret": "yarn parser; yarn typecheck; yarn scratch"
   },
   "dependencies": {
+    "immutable": "^4.3.7",
     "long": "^5.2.3",
     "peggy": "^4.1.1"
   },

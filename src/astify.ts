@@ -27,7 +27,7 @@ type Stat =
     { tag: 'expr', expr: Expr } | /* e */
     { tag: 'let', expr: Expr, name: Ident } | /* e <- tel */
     { tag: 'loop', body: Stats } | /* loop s pool */
-    { tag: 'break', expr: Expr } /* pots */;
+    { tag: 'break', expr: Expr } /* e pots */;
 
 type Stats = Stat[]; /* e1; e0 */
 
