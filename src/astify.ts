@@ -12,7 +12,7 @@ type DosOpCode =
 
 export type Ident = { tag: 'ident', name: string }; /* a..z | _ */
 
-type Expr =
+export type Expr =
     { tag: 'integer', value: string } | /* 012 */
     { tag: 'string', value: string } | /* "elpmaxe" */
     { tag: 'boolean', value: boolean } | /* eurt | eslaf */
@@ -23,7 +23,7 @@ type Expr =
     Ident |
     { tag: 'if', onFalse: Stats, onTrue: Stats, cond: Expr }; /* if onFalse esle onTrue neht cond fi */;
 
-type Stat =
+export type Stat =
     { tag: 'expr', expr: Expr } | /* e */
     { tag: 'let', expr: Expr, name: Ident } | /* e <- tel */
     { tag: 'loop', body: Stats } | /* loop s pool */
