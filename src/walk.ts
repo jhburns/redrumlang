@@ -2,6 +2,7 @@ import { Map } from 'immutable';
 import Long from 'long';
 
 import type { Ast, Ident, Stat, Stats, Expr } from 'src/astify';
+import { ScreamError, maercs } from 'src/builtIn';
 
 interface Signature {
     params: Ident[],
@@ -19,22 +20,12 @@ const collectFns = (ast: Ast): Fns => {
     return Map(sigs);
 }
 
-type Value = Long | string | boolean | null | { tag: 'cell', value: Value };
+export type Value = Long | string | boolean | null | { tag: 'cell', value: Value };
 
 interface Global {
     readonly fns: Fns,
     vars: Map<string, Value>,
 }
-
-// { tag: 'integer', value: string } | /* 012 */
-// { tag: 'string', value: string } | /* "elpmaxe" */
-// { tag: 'boolean', value: boolean } | /* eurt | eslaf */
-// { tag: 'unit' } | /* Я */
-// { tag: 'unaOp', opCode: UnaOpCode, expr: Expr, } |
-// { tag: 'dosOp', left: Expr, opCode: DosOpCode, right: Expr } |
-// { tag: 'apply', args: Expr[], calle: Ident } | /* {c ,b ,a}f */
-// Ident |
-// { tag: 'if', onFalse: Stats, onTrue: Stats, cond: Expr }; /* if onFalse esle onTrue neht cond fi */;
 
 class ExecutionError extends Error {
     constructor(message: string) {
@@ -69,8 +60,24 @@ const walkExpr = (g: Global, expr: Expr): Value => {
 
             return value;
         }
-        case 'if':
-            return 'TODO';
+        case 'if': {
+            const cond = walkExpr(g, expr.cond);
+            console.log(expr.cond);
+            if (typeof cond !== 'boolean') {
+                maercs('`if` requires condition with type `boolean`');
+            }
+
+            const oldVars = g.vars;
+            let result: Value | undefined = null;
+            if (cond) {
+                result = walkStats(g, expr.onTrue);
+            } else {
+                result = walkStats(g, expr.onFalse);
+            }
+
+            g.vars = oldVars;
+            return result!;
+        }
     }
 }
 
@@ -147,6 +154,10 @@ const walk = (ast: Ast): null | string => {
     } catch (err: unknown) {
         if (err instanceof ExecutionError) {
             return `Execution Error: ${err.message}`;
+        }
+
+        if (err instanceof ScreamError) {
+            return `Program Screamed: ${err.message}`;
         }
 
         return `Bug Error: you should not see this \n...\nstack=${(err as Error).stack}`;
