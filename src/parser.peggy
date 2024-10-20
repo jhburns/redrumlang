@@ -44,7 +44,7 @@ loop
   }
   
 break
-  = expr:expr _ "pots" { return { tag: "break", e } }
+  = expr:expr _ "pots" { return { tag: "break", expr } }
 
 expr
   = pipe
