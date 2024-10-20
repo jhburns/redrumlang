@@ -1,8 +1,8 @@
 // If there is a typing error, generate the parser first
 import { parse, SyntaxError as PeggySyntaxError } from 'lib/parser.js';
 
-type UnaOpCode = 'bitNot' /* ton */ | 'neg' /* gen */; // add more
-type DosOpCode =
+export type UnaOpCode = 'bitNot' /* ton */ | 'neg' /* gen */; // add more
+export type DosOpCode =
     'leftShift' /* >> */ | 'rightShift' /* << */ |
     'mul' /* * */ | 'div' /* / */ |
     'add' /* + */ | 'sub' /* - */ |

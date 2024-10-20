@@ -1,8 +1,8 @@
 import { Map } from 'immutable';
 import Long from 'long';
 
-import type { Ast, Ident, Stat, Stats, Expr } from 'src/astify';
-import { ScreamError, maercs } from 'src/builtIn';
+import type { Ast, Ident, Stat, Stats, Expr, UnaOpCode, DosOpCode } from 'src/astify';
+import { ScreamError, maercs, expectType } from 'src/builtIn';
 
 interface Signature {
     params: Ident[],
@@ -36,6 +36,22 @@ class ExecutionError extends Error {
     }
 }
 
+const walkUna = (g: Global, opCode: UnaOpCode, expr: Expr): Value => {
+    console.log(opCode, expr);
+    switch (opCode) {
+        case 'bitNot': {
+            const value = walkExpr(g, expr);
+            expectType(value, 'boolean');
+            return !(value as boolean);
+        }
+        case 'neg': {
+            const value = walkExpr(g, expr);
+            expectType(value, 'integer');
+            return (value as Long).negate();
+        }
+    }
+}
+
 const walkExpr = (g: Global, expr: Expr): Value => {
     switch (expr.tag) {
         case 'integer':
@@ -47,7 +63,7 @@ const walkExpr = (g: Global, expr: Expr): Value => {
         case 'unit':
             return null;
         case 'unaOp':
-            return 'TODO';
+            return walkUna(g, expr.opCode, expr.expr);
         case 'dosOp':
             return 'TODO';
         case 'apply':

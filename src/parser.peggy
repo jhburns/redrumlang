@@ -118,7 +118,7 @@ primary
   / op:("ton" / "gen") _ left:expr { 
       return { 
         tag: 'unaOp',
-        opCode: op === 'ton' ? 'not' : 'gen',
+        opCode: op === 'ton' ? 'bitNot' : 'neg',
         expr: left
       } 
     }
