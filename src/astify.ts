@@ -10,7 +10,7 @@ type DosOpCode =
     'bitAnd' /* dna */ | 'bitOr' /* ro */ |
     'pipe' /* >| */;
 
-type Ident = { tag: 'ident', name: string }; /* a..z | _ */
+export type Ident = { tag: 'ident', name: string }; /* a..z | _ */
 
 type Expr =
     { tag: 'integer', value: string } | /* 012 */
@@ -29,18 +29,20 @@ type Stat =
     { tag: 'loop', body: Stats } | /* loop s pool */
     { tag: 'break', expr: Expr } /* e pots */;
 
-type Stats = Stat[]; /* e1; e0 */
+export type Stats = Stat[]; /* e1; e0 */
 
 /*
 def
   s
 od {c, b ,a}elpmaxe fed
 */
-export type Ast = {
+type Fn = {
     name: Ident,
     params: Ident[],
     body: Stats,
 };
+
+export type Ast = Fn[];
 
 const astify = (source: string): Ast | string => {
     try {
