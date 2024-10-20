@@ -1,15 +1,11 @@
 
 import astify from "src/astify";
+import fs from 'fs';
+import path from 'path';
+import url from 'url';
 
-const source = `
-de
-  2
-  ;if
-    {1 - n}bif + {2 - n}bif 
-  esle
-    n
-  neht n > 2 fi
-od {n}bif fed
-`;
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const scratch = fs.readFileSync(path.join(__dirname, 'scratch.rr'), 'utf-8');
 
-console.log(astify(source));
+console.log(astify(scratch));

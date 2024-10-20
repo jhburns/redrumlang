@@ -10,12 +10,15 @@
   "scripts": {
     "parser": "peggy -c peggy.js",
     "typecheck": "yarn tsc",
-    "launch": "yarn tsx src/redrumlang",
-    "start": "yarn parser; yarn typecheck; yarn launch"
+    "scratch": "yarn tsx src/redrumlang",
+    "interpret": "yarn parser; yarn typecheck; yarn scratch"
   },
   "dependencies": {
     "long": "^5.2.3",
-    "peggy": "^4.1.1",
+    "peggy": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3"
   }

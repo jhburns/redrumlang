@@ -33,14 +33,14 @@ exprStat
   }
 
 loop
-  = "pool" _ body:statements _ "loop" { return {
+  = "loop" _ body:statements _ "pool" { return {
 	  tag: "loop",
       body,
     }
   }
   
 break
-  = "pots" { return { tag: "break" } }
+  = expr:expr _ "pots" { return { tag: "break", expr } }
 
 expr
   = pipe
