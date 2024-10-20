@@ -1,5 +1,9 @@
+functions = fns:(_ function _)* {
+  return fns.map((fn) => fn[1]);
+}
+
 function
-  = _ "def" _ body:statements _ "od" _ "{" _ params:paramlist _ "}" name:ident _ "fed" _ { return {
+  = "def" _ body:statements _ "od" _ "{" _ params:paramlist _ "}" name:ident _ "fed" { return {
       body,
       params,
       name,
@@ -40,7 +44,7 @@ loop
   }
   
 break
-  = expr:expr _ "pots" { return { tag: "break", expr } }
+  = expr:expr _ "pots" { return { tag: "break", e } }
 
 expr
   = pipe
