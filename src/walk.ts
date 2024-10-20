@@ -26,8 +26,52 @@ interface Global {
     vars: Map<string, Value>,
 }
 
+// { tag: 'integer', value: string } | /* 012 */
+// { tag: 'string', value: string } | /* "elpmaxe" */
+// { tag: 'boolean', value: boolean } | /* eurt | eslaf */
+// { tag: 'unit' } | /* Я */
+// { tag: 'unaOp', opCode: UnaOpCode, expr: Expr, } |
+// { tag: 'dosOp', left: Expr, opCode: DosOpCode, right: Expr } |
+// { tag: 'apply', args: Expr[], calle: Ident } | /* {c ,b ,a}f */
+// Ident |
+// { tag: 'if', onFalse: Stats, onTrue: Stats, cond: Expr }; /* if onFalse esle onTrue neht cond fi */;
+
+class ExecutionError extends Error {
+    constructor(message: string) {
+        super(message);
+
+        // Set the prototype explicitly.
+        Object.setPrototypeOf(this, ExecutionError.prototype);
+    }
+}
+
 const walkExpr = (g: Global, expr: Expr): Value => {
-    return 'TODO';
+    switch (expr.tag) {
+        case 'integer':
+            return Long.fromString(expr.value, 10);
+        case 'string':
+            return expr.value;
+        case 'boolean':
+            return expr.value;
+        case 'unit':
+            return null;
+        case 'unaOp':
+            return 'TODO';
+        case 'dosOp':
+            return 'TODO';
+        case 'apply':
+            return 'TODO';
+        case 'ident': {
+            const value = g.vars.get(expr.name);
+            if (value === undefined) {
+                throw new ExecutionError(`Variable \`${expr.name}\` not found`);
+            }
+
+            return value;
+        }
+        case 'if':
+            return 'TODO';
+    }
 }
 
 class BreakError extends Error {
@@ -97,7 +141,16 @@ const walk = (ast: Ast): null | string => {
     }
 
     const g: Global = { fns, vars: Map() };
-    walkStats(g, entry.body);
+
+    try {
+        console.log(walkStats(g, entry.body));
+    } catch (err: unknown) {
+        if (err instanceof ExecutionError) {
+            return `Execution Error: ${err.message}`;
+        }
+
+        return `Bug Error: you should not see this \n...\nstack=${(err as Error).stack}`;
+    }
 
     return null;
 };
