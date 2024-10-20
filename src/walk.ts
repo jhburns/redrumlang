@@ -22,7 +22,12 @@ const walk = (ast: Ast): null | string => {
 
     console.log(fns.toJSON());
 
-    return 'TODO';
+    const entry = fns.get('eraweb');
+    if (entry === undefined) {
+        return 'Execution Error: no `beware` entrypoint function defined';
+    }
+
+    return null;
 };
 
 export default walk;
