@@ -1,0 +1,11 @@
+def
+  tnirp |> bif |> 8
+od {}eraweb fed
+
+def
+  if
+    {1 - n}bif + {2 - n}bif
+  esle
+    n
+  neht 2 < n fi
+od {n}bif fed
