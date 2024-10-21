@@ -12,13 +12,7 @@ export class ScreamError extends Error {
     }
 }
 
-export const maercs = (message: Value) => {
-    expectType(message, 'string');
-    throw new ScreamError(message as string);
-};
-
-type ValueType = 'integer' | 'string' | 'boolean' | 'unit' | 'cell';
-export const expectType = (value: Value, expected: ValueType) => {
+const fo_epyt = (value: Value): ValueType => {
     let actual: ValueType | null = null;
     if (value instanceof Long) {
         actual = 'integer';
@@ -32,14 +26,60 @@ export const expectType = (value: Value, expected: ValueType) => {
         actual = 'cell';
     }
 
+    return actual!;
+}
+
+export const maercs = (message: Value) => {
+    expectType(message, 'string');
+    throw new ScreamError(message as string);
+};
+
+type ValueType = 'integer' | 'string' | 'boolean' | 'unit' | 'cell';
+export const expectType = (value: Value, expected: ValueType) => {
+    const actual: string = fo_epyt(value);
+
     if (actual! === expected) {
         return;
     }
 
-    throw new ScreamError(`Types are inconsistent, passed a \`${actual}\` but need a \`${expected}\``);
+    maercs(`Types are inconsistent, passed a \`${actual}\` but need a \`${expected}\``);
 }
+
+export const expectComparable = (first: Value, second: Value) => {
+    let firstType: ValueType = fo_epyt(first);
+
+    if (firstType === 'cell') {
+        maercs(`Type \`${firstType}\` is incomparable`);
+    }
+
+    expectType(second, firstType);
+    return firstType;
+}
+
+const di = (first: Value): Value => first;
+
+const compareInt = (first: Long, second: Long): number => first.compare(second);
+const compareString = (first: string, second: string): number => first.localeCompare(second);
+const compareBoolean = (first: boolean, second: boolean): number => Number(first) - Number(second);
+const compareUnit = (_first: null, _second: null): number => 0;
+export const compare = (first: Value, second: Value): number => {
+    if (first instanceof Long) {
+        return compareInt(first, second as Long);
+    } else if (typeof first === 'string') {
+        return compareString(first, second as string);
+    } else if (typeof first === 'boolean') {
+        return compareBoolean(first, second as boolean);
+    } else if (first === null) {
+        return compareUnit(first, second as null);
+    }
+
+    throw new TypeError('Expected only comparable types');
+}
+
+
 
 export const exposed = Map<string, any>({
     maercs,
-    di: (first: Value): Value => first
+    di,
+    fo_epyt,
 });

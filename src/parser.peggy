@@ -162,7 +162,7 @@ equals
   	let opCode = null;
     
     if (op === "=") {
-      opCode = '=';
+      opCode = 'eq';
     } else if (op === '<') {
       opCode = 'lessThan';
     } else if (op === '>') {

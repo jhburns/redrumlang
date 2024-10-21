@@ -2,7 +2,7 @@ import { Map } from 'immutable';
 import Long from 'long';
 
 import type { Ast, Ident, Stat, Stats, Expr, UnaOpCode, DosOpCode } from 'src/astify';
-import { ScreamError, maercs, expectType, exposed } from 'src/builtIn';
+import { ScreamError, maercs, expectType, expectComparable, compare, exposed } from 'src/builtIn';
 
 interface Signature {
     params: Ident[],
@@ -97,7 +97,10 @@ const walkDos = (g: Global, left: Expr, opCode: DosOpCode, right: Expr): Value =
             return (rightValue as Long).sub(leftValue as Long);
         }
         case 'eq': {
-            return 'TODO';
+            const rightValue = walkExpr(g, right);
+            const leftValue = walkExpr(g, left);
+            expectComparable(rightValue, leftValue);
+            return compare(rightValue, leftValue) === 0;
         }
         case 'lessThan': {
             return 'TODO';
