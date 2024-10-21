@@ -129,14 +129,14 @@ shift
   	return { 
       tag: 'dosOp',
       left,
-      opCode: op === "<<" ? 'rightShift' : 'leftShift',
+      opCode: op === "<<" ? 'leftShift' : 'rightShift',
       right
     } 
   }
   / primary
 
 mulDiv
-  = left:shift _ op:("*" / "/") _ right:mulDiv { 
+  = left:shift _ op:("*" / "\\") _ right:mulDiv { 
   	return { 
       tag: 'dosOp',
       left,
@@ -163,13 +163,13 @@ equals
     
     if (op === "=") {
       opCode = '=';
-    } else if (op === '>') {
-      opCode = 'lessThan';
     } else if (op === '<') {
+      opCode = 'lessThan';
+    } else if (op === '>') {
       opCode = 'greaterThan';
-    } else if (op === '=>') {
-      opCode = 'lessThanEq';
     } else if (op === '=<') {
+      opCode = 'lessThanEq';
+    } else if (op === '=>') {
       opCode = 'greaterThanEq';
     }
     
@@ -187,7 +187,7 @@ logical
   	return { 
       tag: 'dosOp',
       left,
-      opCode: op === "dna" ? 'and' : 'or',
+      opCode: op === "dna" ? 'bitAnd' : 'bitOr',
       right
     } 
   }

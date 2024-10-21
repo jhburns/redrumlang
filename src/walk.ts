@@ -37,17 +37,93 @@ class ExecutionError extends Error {
 }
 
 const walkUna = (g: Global, opCode: UnaOpCode, expr: Expr): Value => {
-    console.log(opCode, expr);
+    const value = walkExpr(g, expr);
     switch (opCode) {
         case 'bitNot': {
-            const value = walkExpr(g, expr);
             expectType(value, 'boolean');
             return !(value as boolean);
         }
         case 'neg': {
-            const value = walkExpr(g, expr);
             expectType(value, 'integer');
             return (value as Long).negate();
+        }
+    }
+}
+
+// 'leftShift' /* << */ | 'rightShift' /* >> */ |
+// 'mul' /* * */ | 'div' /* \ */ |
+// 'add' /* + */ | 'sub' /* - */ |
+// 'eq' /* = */ | 'lessThan' /* < */ | 'greaterThan' /* > */ | 'lessThanEq' /* =< */ | 'greaterThanEq' /* => */ |
+// 'bitAnd' /* dna */ | 'bitOr' /* ro */ |
+// 'pipe' /* >| */;
+
+
+const walkDos = (g: Global, left: Expr, opCode: DosOpCode, right: Expr): Value => {
+    const rightValue = walkExpr(g, right);
+    const leftValue = walkExpr(g, left);
+
+    console.log(opCode)
+    switch (opCode) {
+        case 'leftShift': {
+            expectType(rightValue, 'integer');
+            expectType(leftValue, 'integer');
+            return (rightValue as Long).shiftLeft(leftValue as Long);
+        }
+        case 'rightShift': {
+            expectType(rightValue, 'integer');
+            expectType(leftValue, 'integer');
+            return (rightValue as Long).shiftRight(leftValue as Long);
+        }
+        case 'mul': {
+            expectType(rightValue, 'integer');
+            expectType(leftValue, 'integer');
+            return (rightValue as Long).mul(leftValue as Long);
+        }
+        case 'div': {
+            expectType(rightValue, 'integer');
+            expectType(leftValue, 'integer');
+            return (rightValue as Long).div(leftValue as Long);
+        }
+        case 'add': {
+            expectType(rightValue, 'integer');
+            expectType(leftValue, 'integer');
+            return (rightValue as Long).add(leftValue as Long);
+        }
+        case 'sub': {
+            expectType(rightValue, 'integer');
+            expectType(leftValue, 'integer');
+            return (rightValue as Long).sub(leftValue as Long);
+        }
+        case 'eq': {
+            return 'TODO';
+        }
+        case 'lessThan': {
+            return 'TODO';
+        }
+        case 'greaterThan': {
+            return 'TODO';
+        }
+        case 'lessThanEq': {
+            return 'TODO';
+        }
+        case 'greaterThanEq': {
+            return 'TODO';
+        }
+        case 'leftShift': {
+            return 'TODO';
+        }
+        case 'bitAnd': {
+            expectType(rightValue, 'boolean');
+            expectType(leftValue, 'boolean');
+            return (rightValue as boolean) && (leftValue as boolean);
+        }
+        case 'bitOr': {
+            expectType(rightValue, 'boolean');
+            expectType(leftValue, 'boolean');
+            return (rightValue as boolean) || (leftValue as boolean);
+        }
+        case 'pipe': {
+            return 'TODO';
         }
     }
 }
@@ -65,7 +141,7 @@ const walkExpr = (g: Global, expr: Expr): Value => {
         case 'unaOp':
             return walkUna(g, expr.opCode, expr.expr);
         case 'dosOp':
-            return 'TODO';
+            return walkDos(g, expr.left, expr.opCode, expr.right);
         case 'apply':
             return 'TODO';
         case 'ident': {

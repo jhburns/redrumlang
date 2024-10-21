@@ -3,10 +3,10 @@ import { parse, SyntaxError as PeggySyntaxError } from 'lib/parser.js';
 
 export type UnaOpCode = 'bitNot' /* ton */ | 'neg' /* gen */; // add more
 export type DosOpCode =
-    'leftShift' /* >> */ | 'rightShift' /* << */ |
-    'mul' /* * */ | 'div' /* / */ |
+    'leftShift' /* << */ | 'rightShift' /* >> */ |
+    'mul' /* * */ | 'div' /* \ */ |
     'add' /* + */ | 'sub' /* - */ |
-    'eq' /* = */ | 'lessThan' /* > */ | 'greaterThan' /* < */ | 'lessThanEq' /* => */ | 'greaterThanEq' /* =< */ |
+    'eq' /* = */ | 'lessThan' /* < */ | 'greaterThan' /* > */ | 'lessThanEq' /* =< */ | 'greaterThanEq' /* => */ |
     'bitAnd' /* dna */ | 'bitOr' /* ro */ |
     'pipe' /* >| */;
 
