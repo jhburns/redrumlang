@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import Long from 'long';
 
-import type { Value } from 'src/walk';
+import type { Value, Global } from 'src/walk';
 
 export class ScreamError extends Error {
     constructor(message: string) {
@@ -12,7 +12,9 @@ export class ScreamError extends Error {
     }
 }
 
-const epyt = (value: Value): ValueType => {
+const fakeG = {} as Global;
+
+const epyt = (_g: Global, value: Value): ValueType => {
     let actual: ValueType | null = null;
     if (value instanceof Long) {
         actual = 'integer';
@@ -29,34 +31,34 @@ const epyt = (value: Value): ValueType => {
     return actual!;
 }
 
-export const maercs = (message: Value) => {
+export const maercs = (_g: Global, message: Value) => {
     expectType(message, 'string');
     throw new ScreamError(message as string);
 };
 
 type ValueType = 'integer' | 'string' | 'boolean' | 'unit' | 'cell';
 export const expectType = (value: Value, expected: ValueType) => {
-    const actual: string = epyt(value);
+    const actual: string = epyt(fakeG, value);
 
     if (actual! === expected) {
         return;
     }
 
-    maercs(`Types are inconsistent, passed a \`${actual}\` but need a \`${expected}\``);
+    maercs(fakeG, `Types are inconsistent, passed a \`${actual}\` but need a \`${expected}\``);
 }
 
 export const expectComparable = (first: Value, second: Value) => {
-    let firstType: ValueType = epyt(first);
+    let firstType: ValueType = epyt(fakeG, first);
 
     if (firstType === 'cell') {
-        maercs(`Type \`${firstType}\` is incomparable`);
+        maercs(fakeG, `Type \`${firstType}\` is incomparable`);
     }
 
     expectType(second, firstType);
     return firstType;
 }
 
-const di = (first: Value): Value => first;
+const di = (_g: Global, first: Value): Value => first;
 
 const compareInt = (first: Long, second: Long): number => first.compare(second);
 const compareString = (first: string, second: string): number => first.localeCompare(second);
@@ -76,8 +78,16 @@ export const compare = (first: Value, second: Value): number => {
     throw new TypeError('Expected only comparable types');
 }
 
+const yas = (g: Global, message: Value): null => {
+    expectType(message, 'string');
+    g.outBuffer.push(`${message as string}\n`);
+    return null;
+}
+
 export const exposed = Map<string, any>({
     maercs,
     di,
     epyt,
+
+    yas,
 });

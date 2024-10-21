@@ -25,6 +25,7 @@ statement
 let
   = expr:expr _ "<-" _ name:ident _ "tel" { return { 
       tag: 'let',
+      name,
       expr,
     }
   }

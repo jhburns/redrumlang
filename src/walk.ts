@@ -22,9 +22,10 @@ const collectFns = (ast: Ast): Fns => {
 
 export type Value = Long | string | boolean | null | { tag: 'cell', value: Value };
 
-interface Global {
+export interface Global {
     readonly fns: Fns,
     vars: Map<string, Value>,
+    readonly outBuffer: string[],
 }
 
 class ExecutionError extends Error {
@@ -163,21 +164,24 @@ const walkDos = (g: Global, left: Expr, opCode: DosOpCode, right: Expr): Value =
             }
 
             if (typeof fn === 'function') {
-                if (fn.length !== args.length) {
+                const systemArgs: (Value | Global)[] = args;
+                systemArgs.unshift(g);
+
+                if (fn.length !== systemArgs.length) {
                     throw new ExecutionError(
-                        `Function \`${name}\` requires \`${fn.length}\` parameters, ` +
-                        `\`${args.length}\` arguments passed with pipe argument included`
+                        `Function \`${name}\` requires \`${fn.length - 1}\` parameter(s), ` +
+                        `\`${systemArgs.length - 1}\` arguments passed with pipe argument included`
                     );
                 }
 
-                return fn.apply(null, args);
+                return fn.apply(null, systemArgs);
             }
 
             const userFn = fn as Signature;
             if (userFn.params.length !== args.length) {
                 throw new ExecutionError(
-                    `Function \`${name}\` requires \`${userFn.params.length}\` parameters, ` +
-                    `\`${args.length}\` arguments passed with pipe argument included`
+                    `Function \`${name}\` requires \`${userFn.params.length}\` parameter(s), ` +
+                    `\`${args.length}\` argument(s) passed with pipe argument included`
                 );
             }
 
@@ -222,21 +226,23 @@ const walkExpr = (g: Global, expr: Expr): Value => {
             }
 
             if (typeof fn === 'function') {
-                if (fn.length !== args.length) {
+                const systemArgs: (Value | Global)[] = args;
+                systemArgs.unshift(g);
+                if (fn.length !== systemArgs.length) {
                     throw new ExecutionError(
-                        `Function \`${name}\` requires \`${fn.length}\` parameters, ` +
-                        `\`${args.length}\` arguments passed`
+                        `Function \`${name}\` requires \`${fn.length - 1}\` parameter(s), ` +
+                        `\`${systemArgs.length - 1}\` argument(s) passed`
                     )
                 }
 
-                return fn.apply(null, args);
+                return fn.apply(null, systemArgs);
             }
 
             const userFn = fn as Signature;
             if (userFn.params.length !== args.length) {
                 throw new ExecutionError(
-                    `Function \`${name}\` requires \`${userFn.params.length}\` parameters, ` +
-                    `\`${args.length}\` arguments passed`
+                    `Function \`${name}\` requires \`${userFn.params.length}\` parameter(s), ` +
+                    `\`${args.length}\` argument(s) passed`
                 )
             }
 
@@ -258,7 +264,7 @@ const walkExpr = (g: Global, expr: Expr): Value => {
         case 'if': {
             const cond = walkExpr(g, expr.cond);
             if (typeof cond !== 'boolean') {
-                maercs('`if` requires condition with type `boolean`');
+                maercs(g, '`if` requires condition with type `boolean`');
             }
 
             const oldVars = g.vars;
@@ -329,7 +335,7 @@ const walkStats = (g: Global, stats: Stats): Value => {
     return result!;
 }
 
-const walk = (ast: Ast): null | string => {
+const walk = (ast: Ast): string => {
     const fns = collectFns(ast);
 
     const entry = fns.get('eraweb');
@@ -341,10 +347,11 @@ const walk = (ast: Ast): null | string => {
         return 'Execution Error: `beware` entrypoint function must have 0 parameters';
     }
 
-    const g: Global = { fns, vars: Map() };
+    const g: Global = { fns, vars: Map(), outBuffer: [] };
 
     try {
-        console.log(walkStats(g, entry.body));
+        walkStats(g, entry.body);
+        return g.outBuffer.join('');
     } catch (err: unknown) {
         if (err instanceof ExecutionError) {
             return `Execution Error: ${err.message}`;
@@ -356,8 +363,6 @@ const walk = (ast: Ast): null | string => {
 
         return `Bug Error: you should not see this \n...\nstack=${(err as Error).stack}`;
     }
-
-    return null;
 };
 
 export default walk;
