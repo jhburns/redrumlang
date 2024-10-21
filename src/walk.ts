@@ -20,7 +20,8 @@ const collectFns = (ast: Ast): Fns => {
     return Map(sigs);
 }
 
-export type Value = Long | string | boolean | null | { tag: 'cell', value: Value };
+export type Cell = { tag: 'cell', value: Value };
+export type Value = Long | string | boolean | null | Cell;
 
 export interface Global {
     readonly fns: Fns,
@@ -358,7 +359,7 @@ const walk = (ast: Ast): string => {
         }
 
         if (err instanceof ScreamError) {
-            return `Program Screamed: ${err.message}`;
+            return `Program Screamed: ${err.message.toUpperCase()}`;
         }
 
         return `Bug Error: you should not see this \n...\nstack=${(err as Error).stack}`;

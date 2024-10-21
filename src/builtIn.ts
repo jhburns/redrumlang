@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import Long from 'long';
 
-import type { Value, Global } from 'src/walk';
+import type { Value, Global, Cell } from 'src/walk';
 
 export class ScreamError extends Error {
     constructor(message: string) {
@@ -84,10 +84,29 @@ const yas = (g: Global, message: Value): null => {
     return null;
 }
 
+const llec = (_g: Global, value: Value): { tag: "cell", value: Value } => {
+    return { tag: "cell", value }
+}
+
+const tes = (_g: Global, cell: Value, newValue: Value): null => {
+    expectType(cell, 'cell');
+    (cell as Cell).value = newValue;
+    return null;
+}
+
+const teg = (_g: Global, value: Value): Value => {
+    expectType(value, 'cell');
+    return (value as Cell).value;
+}
+
 export const exposed = Map<string, any>({
     maercs,
     di,
     epyt,
 
     yas,
+
+    llec,
+    tes,
+    teg,
 });
