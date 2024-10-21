@@ -60,6 +60,14 @@ export const expectComparable = (first: Value, second: Value) => {
 
 const di = (_g: Global, first: Value): Value => first;
 
+const redrum = (g: Global): null => {
+    for (let i = 0; i < 1000; i += 1) {
+        g.outBuffer.push(`All work and no play makes Jack a dull boy\n`);
+    }
+
+    return null;
+}
+
 const compareInt = (first: Long, second: Long): number => first.compare(second);
 const compareString = (first: string, second: string): number => first.localeCompare(second);
 const compareBoolean = (first: boolean, second: boolean): number => Number(first) - Number(second);
@@ -132,6 +140,7 @@ export const exposed = Map<string, any>({
     maercs,
     di,
     epyt,
+    redrum,
 
     yas,
 

@@ -1,0 +1,11 @@
+def
+  {}yas >| {}gnirts_ot_regetni >|{}tcaf >| 01
+od {}eraweb fed
+
+def
+  if
+    n * {1 - n}tcaf
+  esle
+    1
+  neht 1 < n fi
+od {n}tcaf fed
