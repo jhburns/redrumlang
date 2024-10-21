@@ -114,6 +114,20 @@ const gnirts_ot_tinu = (_g: Global, value: Value): Value => {
     return 'R';
 }
 
+const tacnoc = (_g: Global, second: Value, first: Value): string => {
+    expectType(first, 'string');
+    expectType(second, 'string');
+    return (first as string) + (second as string);
+}
+
+const ecils = (_g: Global, end: Value, start: Value, str: Value): string => {
+    expectType(str, 'string');
+    expectType(start, 'integer');
+    expectType(end, 'integer');
+
+    return (str as string).slice((start as Long).toNumber(), (end as Long).toNumber());
+}
+
 export const exposed = Map<string, any>({
     maercs,
     di,
@@ -126,6 +140,11 @@ export const exposed = Map<string, any>({
     teg,
 
     gnirts_ot_regetni,
+
     gnirts_ot_loob,
-    gnirts_ot_tinu
+
+    gnirts_ot_tinu,
+
+    tacnoc,
+    ecils
 });
