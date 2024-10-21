@@ -99,6 +99,21 @@ const teg = (_g: Global, value: Value): Value => {
     return (value as Cell).value;
 }
 
+const gnirts_ot_regetni = (_g: Global, value: Value): Value => {
+    expectType(value, 'integer');
+    return (value as Long).toString();
+}
+
+const gnirts_ot_loob = (_g: Global, value: Value): Value => {
+    expectType(value, 'boolean');
+    return (value as boolean).toString();
+}
+
+const gnirts_ot_tinu = (_g: Global, value: Value): Value => {
+    expectType(value, 'unit');
+    return 'R';
+}
+
 export const exposed = Map<string, any>({
     maercs,
     di,
@@ -109,4 +124,8 @@ export const exposed = Map<string, any>({
     llec,
     tes,
     teg,
+
+    gnirts_ot_regetni,
+    gnirts_ot_loob,
+    gnirts_ot_tinu
 });
