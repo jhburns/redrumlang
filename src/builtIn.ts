@@ -12,7 +12,7 @@ export class ScreamError extends Error {
     }
 }
 
-const fo_epyt = (value: Value): ValueType => {
+const epyt = (value: Value): ValueType => {
     let actual: ValueType | null = null;
     if (value instanceof Long) {
         actual = 'integer';
@@ -36,7 +36,7 @@ export const maercs = (message: Value) => {
 
 type ValueType = 'integer' | 'string' | 'boolean' | 'unit' | 'cell';
 export const expectType = (value: Value, expected: ValueType) => {
-    const actual: string = fo_epyt(value);
+    const actual: string = epyt(value);
 
     if (actual! === expected) {
         return;
@@ -46,7 +46,7 @@ export const expectType = (value: Value, expected: ValueType) => {
 }
 
 export const expectComparable = (first: Value, second: Value) => {
-    let firstType: ValueType = fo_epyt(first);
+    let firstType: ValueType = epyt(first);
 
     if (firstType === 'cell') {
         maercs(`Type \`${firstType}\` is incomparable`);
@@ -76,10 +76,8 @@ export const compare = (first: Value, second: Value): number => {
     throw new TypeError('Expected only comparable types');
 }
 
-
-
 export const exposed = Map<string, any>({
     maercs,
     di,
-    fo_epyt,
+    epyt,
 });

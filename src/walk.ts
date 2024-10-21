@@ -50,8 +50,6 @@ const walkUna = (g: Global, opCode: UnaOpCode, expr: Expr): Value => {
     }
 }
 
-// 'eq' /* = */ | 'lessThan' /* < */ | 'greaterThan' /* > */ | 'lessThanEq' /* =< */ | 'greaterThanEq' /* => */ |
-
 const walkDos = (g: Global, left: Expr, opCode: DosOpCode, right: Expr): Value => {
     switch (opCode) {
         case 'leftShift': {
@@ -103,19 +101,32 @@ const walkDos = (g: Global, left: Expr, opCode: DosOpCode, right: Expr): Value =
             return compare(rightValue, leftValue) === 0;
         }
         case 'lessThan': {
-            return 'TODO';
+            const rightValue = walkExpr(g, right);
+            const leftValue = walkExpr(g, left);
+            expectComparable(rightValue, leftValue);
+            const comparison = compare(rightValue, leftValue);
+            return comparison < 0;
         }
         case 'greaterThan': {
-            return 'TODO';
+            const rightValue = walkExpr(g, right);
+            const leftValue = walkExpr(g, left);
+            expectComparable(rightValue, leftValue);
+            const comparison = compare(rightValue, leftValue);
+            return comparison > 0;
         }
         case 'lessThanEq': {
-            return 'TODO';
+            const rightValue = walkExpr(g, right);
+            const leftValue = walkExpr(g, left);
+            expectComparable(rightValue, leftValue);
+            const comparison = compare(rightValue, leftValue);
+            return comparison < 0 || comparison === 0;
         }
         case 'greaterThanEq': {
-            return 'TODO';
-        }
-        case 'leftShift': {
-            return 'TODO';
+            const rightValue = walkExpr(g, right);
+            const leftValue = walkExpr(g, left);
+            expectComparable(rightValue, leftValue);
+            const comparison = compare(rightValue, leftValue);
+            return comparison > 0 || comparison === 0;
         }
         case 'bitAnd': {
             const rightValue = walkExpr(g, right);
