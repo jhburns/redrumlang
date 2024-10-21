@@ -41,4 +41,5 @@ export const expectType = (value: Value, expected: ValueType) => {
 
 export const exposed = Map<string, any>({
     maercs,
+    di: (first: Value): Value => first
 });

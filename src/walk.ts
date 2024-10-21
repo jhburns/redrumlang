@@ -2,7 +2,7 @@ import { Map } from 'immutable';
 import Long from 'long';
 
 import type { Ast, Ident, Stat, Stats, Expr, UnaOpCode, DosOpCode } from 'src/astify';
-import { ScreamError, maercs, expectType } from 'src/builtIn';
+import { ScreamError, maercs, expectType, exposed } from 'src/builtIn';
 
 interface Signature {
     params: Ident[],
@@ -50,47 +50,49 @@ const walkUna = (g: Global, opCode: UnaOpCode, expr: Expr): Value => {
     }
 }
 
-// 'leftShift' /* << */ | 'rightShift' /* >> */ |
-// 'mul' /* * */ | 'div' /* \ */ |
-// 'add' /* + */ | 'sub' /* - */ |
 // 'eq' /* = */ | 'lessThan' /* < */ | 'greaterThan' /* > */ | 'lessThanEq' /* =< */ | 'greaterThanEq' /* => */ |
-// 'bitAnd' /* dna */ | 'bitOr' /* ro */ |
-// 'pipe' /* >| */;
-
 
 const walkDos = (g: Global, left: Expr, opCode: DosOpCode, right: Expr): Value => {
-    const rightValue = walkExpr(g, right);
-    const leftValue = walkExpr(g, left);
-
-    console.log(opCode)
     switch (opCode) {
         case 'leftShift': {
+            const rightValue = walkExpr(g, right);
             expectType(rightValue, 'integer');
+            const leftValue = walkExpr(g, left);
             expectType(leftValue, 'integer');
             return (rightValue as Long).shiftLeft(leftValue as Long);
         }
         case 'rightShift': {
+            const rightValue = walkExpr(g, right);
             expectType(rightValue, 'integer');
+            const leftValue = walkExpr(g, left);
             expectType(leftValue, 'integer');
             return (rightValue as Long).shiftRight(leftValue as Long);
         }
         case 'mul': {
+            const rightValue = walkExpr(g, right);
             expectType(rightValue, 'integer');
+            const leftValue = walkExpr(g, left);
             expectType(leftValue, 'integer');
             return (rightValue as Long).mul(leftValue as Long);
         }
         case 'div': {
+            const rightValue = walkExpr(g, right);
             expectType(rightValue, 'integer');
+            const leftValue = walkExpr(g, left);
             expectType(leftValue, 'integer');
             return (rightValue as Long).div(leftValue as Long);
         }
         case 'add': {
+            const rightValue = walkExpr(g, right);
             expectType(rightValue, 'integer');
+            const leftValue = walkExpr(g, left);
             expectType(leftValue, 'integer');
             return (rightValue as Long).add(leftValue as Long);
         }
         case 'sub': {
+            const rightValue = walkExpr(g, right);
             expectType(rightValue, 'integer');
+            const leftValue = walkExpr(g, left);
             expectType(leftValue, 'integer');
             return (rightValue as Long).sub(leftValue as Long);
         }
@@ -113,17 +115,64 @@ const walkDos = (g: Global, left: Expr, opCode: DosOpCode, right: Expr): Value =
             return 'TODO';
         }
         case 'bitAnd': {
+            const rightValue = walkExpr(g, right);
             expectType(rightValue, 'boolean');
+            const leftValue = walkExpr(g, left);
             expectType(leftValue, 'boolean');
             return (rightValue as boolean) && (leftValue as boolean);
         }
         case 'bitOr': {
+            const rightValue = walkExpr(g, right);
             expectType(rightValue, 'boolean');
+            const leftValue = walkExpr(g, left);
             expectType(leftValue, 'boolean');
             return (rightValue as boolean) || (leftValue as boolean);
         }
         case 'pipe': {
-            return 'TODO';
+            if (left.tag !== 'apply') {
+                throw new ExecutionError('Expression piped into must be function application');
+            }
+
+            let fn: Signature | any = null;
+            const name = left.calle.name;
+            if (exposed.has(name)) {
+                fn = exposed.get(name);
+            } else if (g.fns.has(name)) {
+                fn = g.fns.get(name);
+            } else {
+                throw new ExecutionError(`Function \`${name}\` not found`);
+            }
+
+            const args: Value[] = [walkExpr(g, right)];
+            for (let i = left.args.length - 1; i >= 0; i -= 1) {
+                args.unshift(walkExpr(g, left.args[i]));
+            }
+
+            if (typeof fn === 'function') {
+                if (fn.length !== args.length) {
+                    throw new ExecutionError(
+                        `Function \`${name}\` requires \`${fn.length}\` parameters, ` +
+                        `\`${args.length}\` arguments passed with pipe argument included`
+                    );
+                }
+
+                return fn.apply(null, args);
+            }
+
+            const userFn = fn as Signature;
+            if (userFn.params.length !== args.length) {
+                throw new ExecutionError(
+                    `Function \`${name}\` requires \`${userFn.params.length}\` parameters, ` +
+                    `\`${args.length}\` arguments passed with pipe argument included`
+                );
+            }
+
+            const oldVars = g.vars;
+            const newVars = Map<string, Value>(args.map((arg, i) => [userFn.params[i].name, arg]));
+            g.vars = newVars;
+            const result = walkStats(g, userFn.body);
+            g.vars = oldVars;
+            return result;
         }
     }
 }
@@ -142,8 +191,48 @@ const walkExpr = (g: Global, expr: Expr): Value => {
             return walkUna(g, expr.opCode, expr.expr);
         case 'dosOp':
             return walkDos(g, expr.left, expr.opCode, expr.right);
-        case 'apply':
-            return 'TODO';
+        case 'apply': {
+            let fn: Signature | any = null;
+            const name = expr.calle.name;
+            if (exposed.has(name)) {
+                fn = exposed.get(name);
+            } else if (g.fns.has(name)) {
+                fn = g.fns.get(name);
+            } else {
+                throw new ExecutionError(`Function \`${name}\` not found`);
+            }
+
+            const args: Value[] = [];
+            for (let i = expr.args.length - 1; i >= 0; i -= 1) {
+                args.unshift(walkExpr(g, expr.args[i]));
+            }
+
+            if (typeof fn === 'function') {
+                if (fn.length !== args.length) {
+                    throw new ExecutionError(
+                        `Function \`${name}\` requires \`${fn.length}\` parameters, ` +
+                        `\`${args.length}\` arguments passed`
+                    )
+                }
+
+                return fn.apply(null, args);
+            }
+
+            const userFn = fn as Signature;
+            if (userFn.params.length !== args.length) {
+                throw new ExecutionError(
+                    `Function \`${name}\` requires \`${userFn.params.length}\` parameters, ` +
+                    `\`${args.length}\` arguments passed`
+                )
+            }
+
+            const oldVars = g.vars;
+            const newVars = Map<string, Value>(args.map((arg, i) => [userFn.params[i].name, arg]));
+            g.vars = newVars;
+            const result = walkStats(g, userFn.body);
+            g.vars = oldVars;
+            return result;
+        }
         case 'ident': {
             const value = g.vars.get(expr.name);
             if (value === undefined) {
@@ -154,7 +243,6 @@ const walkExpr = (g: Global, expr: Expr): Value => {
         }
         case 'if': {
             const cond = walkExpr(g, expr.cond);
-            console.log(expr.cond);
             if (typeof cond !== 'boolean') {
                 maercs('`if` requires condition with type `boolean`');
             }
