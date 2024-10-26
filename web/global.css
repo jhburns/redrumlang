@@ -1,0 +1,7 @@
+@import 'npm:sanitize.css';
+@import 'npm:sanitize.css/forms.css';
+@import 'npm:sanitize.css/typography.css';
+
+body {
+    font-family: serif;
+}
