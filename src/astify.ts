@@ -1,7 +1,7 @@
 // If there is a typing error, generate the parser first
 import { parse, SyntaxError as PeggySyntaxError } from 'lib/parser.js';
 
-export type UnaOpCode = 'bitNot' /* ton */ | 'neg' /* gen */; // add more
+export type UnaOpCode = 'bitNot' /* ton */ | 'neg' /* gen */;
 export type DosOpCode =
     'leftShift' /* << */ | 'rightShift' /* >> */ |
     'mul' /* * */ | 'div' /* \ */ |
@@ -25,7 +25,7 @@ export type Expr =
 
 export type Stat =
     { tag: 'expr', expr: Expr } | /* e */
-    { tag: 'let', expr: Expr, name: Ident } | /* e <- tel */
+    { tag: 'let', expr: Expr, name: Ident } | /* e <- id tel */
     { tag: 'loop', body: Stats } | /* loop s pool */
     { tag: 'break', expr: Expr } /* e pots */;
 
