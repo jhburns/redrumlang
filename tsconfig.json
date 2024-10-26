@@ -18,10 +18,10 @@
         "noFallthroughCasesInSwitch": false,
         "esModuleInterop": false,
         "paths": {
-            "src/*": [
+            "/src/*": [
                 "src/*"
             ],
-            "lib/*": [
+            "/lib/*": [
                 "lib/*"
             ]
         },

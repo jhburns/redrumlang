@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 import Long from 'long';
 
-import type { Value, Global, Cell } from 'src/walk';
+import type { Value, Global, Cell } from '/src/walk';
 
 export class ScreamError extends Error {
     constructor(message: string) {

@@ -2,16 +2,23 @@
   "name": "redrumlang",
   "version": "0.0.1",
   "description": "spooky scary language",
-  "main": "src/redrumlang.ts",
   "author": "Jonathan Burns",
   "license": "MIT",
   "private": false,
   "type": "module",
+  "source": "web/index.html",
+  "engines": {
+    "node": ">= 20.9.0"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "parser": "peggy -c peggy.js",
     "typecheck": "yarn tsc",
-    "scratch": "yarn tsx src/redrumlang",
-    "interpret": "yarn parser; yarn typecheck; yarn scratch"
+    "scratch": "yarn tsx src/scratch",
+    "interpret": "yarn parser; yarn typecheck; yarn scratch",
+    "start": "yarn parcel",
+    "build": "yarn parcel build",
+    "prod": "yarn build; yarn serve dist/"
   },
   "dependencies": {
     "immutable": "^4.3.7",
@@ -20,7 +27,9 @@
   },
   "devDependencies": {
     "@types/node": "^22.7.5",
+    "parcel": "^2.12.0",
     "tsx": "^4.19.1",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "serve": "^14.2.4"
   }
 }

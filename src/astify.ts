@@ -1,5 +1,5 @@
 // If there is a typing error, generate the parser first
-import { parse, SyntaxError as PeggySyntaxError } from 'lib/parser.js';
+import { parse, SyntaxError as PeggySyntaxError } from '/lib/parser.js';
 
 export type UnaOpCode = 'bitNot' /* ton */ | 'neg' /* gen */;
 export type DosOpCode =
