@@ -19,20 +19,19 @@
         "noFallthroughCasesInSwitch": false,
         "esModuleInterop": false,
         "paths": {
-            "/src/*": [
-                "src/*"
+            "~/src/*": [
+                "./src/*"
             ],
-            "/lib/*": [
-                "lib/*"
+            "~/lib/*": [
+                "./lib/*"
             ],
-            "/web/*": [
-                "web/*"
+            "~/web/*": [
+                "./web/*"
             ]
         },
         "typeRoots": [
             "node_modules/@types"
         ],
-        "baseUrl": "."
     },
     "include": [
         "src",
