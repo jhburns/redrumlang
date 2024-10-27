@@ -1,0 +1,5 @@
+.outputText {
+    height: 300px;
+    overflow: scroll;
+    white-space: pre-wrap;
+}
