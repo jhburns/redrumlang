@@ -1,7 +1,10 @@
-import styles from '/web/App.module.css';
+import CodeEditor from '/web/part/CodeEditor';
+import Output from '/web/part/Output';
 
 export default function App() {
-    return <main className={styles.mainBox}>
+    return <main className='main-box'>
         <h1>RedЯum Lang</h1>
+        <CodeEditor />
+        <Output />
     </main>;
 }

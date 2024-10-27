@@ -5,3 +5,13 @@
 body {
     font-family: "Tinos", serif;
 }
+
+.main-box {
+    background-color: aquamarine;
+}
+
+.output-text {
+    height: 100px;
+    overflow: scroll;
+    text-wrap: nowrap;
+}
