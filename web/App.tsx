@@ -1,11 +1,12 @@
 import { useState } from "preact/hooks";
+import { useLocalStorage } from "usehooks-ts";
 
 import Control from '~/web/part/Control';
 import CodeEditor from '~/web/part/CodeEditor';
 import Output from '~/web/part/Output';
 
 export default function App() {
-    const [code, setCode] = useState<string>('');
+    const [code, setCode] = useLocalStorage<string>('editorSource', '');
     // Preact does not provide the type to correctly check 'value'
     const onCode = (e: any) => setCode(e.target.value);
 

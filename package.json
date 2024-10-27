@@ -25,7 +25,8 @@
     "long": "^5.2.3",
     "peggy": "^4.1.1",
     "preact": "^10.24.3",
-    "sanitize.css": "^13.0.0"
+    "sanitize.css": "^13.0.0",
+    "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.12.0",
