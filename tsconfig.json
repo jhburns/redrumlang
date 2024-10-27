@@ -29,7 +29,12 @@
         "typeRoots": [
             "node_modules/@types"
         ],
-        "baseUrl": "."
+        "baseUrl": ".",
+        "plugins": [
+            {
+                "name": "typescript-plugin-css-modules"
+            }
+        ]
     },
     "include": [
         "src",
