@@ -11,7 +11,7 @@ body {
 }
 
 .output-text {
-    height: 100px;
+    height: 300px;
     overflow: scroll;
     text-wrap: nowrap;
 }
