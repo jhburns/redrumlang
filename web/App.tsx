@@ -6,7 +6,7 @@ import Output from '~/web/part/Output';
 
 export default function App() {
     const [code, setCode] = useState<string>('');
-    // Preact does not provide the correct type to correctly check 'value'
+    // Preact does not provide the type to correctly check 'value'
     const onCode = (e: any) => setCode(e.target.value);
 
     const [output, setOutput] = useState<string>('Waiting for output...');

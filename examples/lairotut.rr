@@ -28,7 +28,7 @@ def
   ;{7}tuo >| {"tso"}tacnoc >| {2 ,0}ecils >| "taog"
   ;{8}tuo >| {}gnirts_ot_loob >| "tinu" = {Я}epyt
 
-  ;"Variables are statements, immutable, and also shadow"
+  ;"Variable declaration is a statement, immutable, and shadows"
   ;{9 ,x}tuo
   ;"a" <- x tel 
   ;"b" <- x tel

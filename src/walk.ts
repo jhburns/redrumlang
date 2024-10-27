@@ -161,12 +161,12 @@ const walkDos = (g: Global, left: Expr, opCode: DosOpCode, right: Expr): Value =
 
             const args: Value[] = [walkExpr(g, right)];
             for (let i = left.args.length - 1; i >= 0; i -= 1) {
-                args.unshift(walkExpr(g, left.args[i]));
+                args.push(walkExpr(g, left.args[i]));
             }
 
             if (typeof fn === 'function') {
                 const systemArgs: (Value | Global)[] = args;
-                systemArgs.unshift(g);
+                systemArgs.push(g);
 
                 if (fn.length !== systemArgs.length) {
                     throw new ExecutionError(
@@ -175,7 +175,7 @@ const walkDos = (g: Global, left: Expr, opCode: DosOpCode, right: Expr): Value =
                     );
                 }
 
-                return fn.apply(null, systemArgs);
+                return fn.apply(null, systemArgs.reverse());
             }
 
             const userFn = fn as Signature;
@@ -187,7 +187,9 @@ const walkDos = (g: Global, left: Expr, opCode: DosOpCode, right: Expr): Value =
             }
 
             const oldVars = g.vars;
-            const newVars = Map<string, Value>(args.map((arg, i) => [userFn.params[i].name, arg]));
+            const newVars = Map<string, Value>(
+                args.reverse().map((arg, i) => [userFn.params[i].name, arg]));
+
             g.vars = newVars;
             const result = walkStats(g, userFn.body);
             g.vars = oldVars;
@@ -223,12 +225,12 @@ const walkExpr = (g: Global, expr: Expr): Value => {
 
             const args: Value[] = [];
             for (let i = expr.args.length - 1; i >= 0; i -= 1) {
-                args.unshift(walkExpr(g, expr.args[i]));
+                args.push(walkExpr(g, expr.args[i]));
             }
 
             if (typeof fn === 'function') {
                 const systemArgs: (Value | Global)[] = args;
-                systemArgs.unshift(g);
+                systemArgs.push(g);
                 if (fn.length !== systemArgs.length) {
                     throw new ExecutionError(
                         `Function \`${name}\` requires \`${fn.length - 1}\` parameter(s), ` +
@@ -236,7 +238,7 @@ const walkExpr = (g: Global, expr: Expr): Value => {
                     )
                 }
 
-                return fn.apply(null, systemArgs);
+                return fn.apply(null, systemArgs.reverse());
             }
 
             const userFn = fn as Signature;
@@ -248,7 +250,9 @@ const walkExpr = (g: Global, expr: Expr): Value => {
             }
 
             const oldVars = g.vars;
-            const newVars = Map<string, Value>(args.map((arg, i) => [userFn.params[i].name, arg]));
+            const newVars = Map<string, Value>(
+                args.reverse().map((arg, i) => [userFn.params[i].name, arg]));
+
             g.vars = newVars;
             const result = walkStats(g, userFn.body);
             g.vars = oldVars;
