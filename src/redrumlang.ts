@@ -1,6 +1,6 @@
 
-import astify from '/src/astify';
-import walk from '/src/walk';
+import astify from '~/src/astify';
+import walk from '~/src/walk';
 
 const redrum = (source: string): string => {
     const ast = astify(source);

@@ -1,5 +1,5 @@
 import type { Dispatch, StateUpdater } from "preact/hooks";
-import redrum from "/src/redrumlang";
+import redrum from "~/src/redrumlang";
 
 interface ControlProps {
     code: string,

@@ -1,8 +1,8 @@
 import { useState } from "preact/hooks";
 
-import Control from '/web/part/Control';
-import CodeEditor from '/web/part/CodeEditor';
-import Output from '/web/part/Output';
+import Control from '~/web/part/Control';
+import CodeEditor from '~/web/part/CodeEditor';
+import Output from '~/web/part/Output';
 
 export default function App() {
     const [code, setCode] = useState<string>('');

@@ -1,8 +1,8 @@
 import { Map } from 'immutable';
 import Long from 'long';
 
-import type { Ast, Ident, Stat, Stats, Expr, UnaOpCode, DosOpCode } from '/src/astify';
-import { ScreamError, maercs, expectType, expectComparable, compare, exposed } from '/src/builtIn';
+import type { Ast, Ident, Stat, Stats, Expr, UnaOpCode, DosOpCode } from '~/src/astify';
+import { ScreamError, maercs, expectType, expectComparable, compare, exposed } from '~/src/builtIn';
 
 interface Signature {
     params: Ident[],
