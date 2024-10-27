@@ -1,0 +1,18 @@
+.executeButton {
+    margin-left: auto;
+    margin-right: 0.75rem;
+
+    max-height: 2.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    font-size: 1.10rem;
+}
+
+.exampleSelect {
+    max-height: 2.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    font-size: 1.10rem;
+}

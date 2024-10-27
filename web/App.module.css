@@ -1,3 +1,14 @@
 .mainBox {
-    background-color: aquamarine;
+    height: 100vh;
+    padding: 3rem;
+}
+
+.titleText {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.taskBar {
+    display: flex;
+    align-items: center;
 }

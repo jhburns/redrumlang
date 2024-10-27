@@ -21,8 +21,10 @@ export default function App() {
     const [output, setOutput] = useState<string>('Waiting for output...');
 
     return <main className={style.mainBox}>
-        <h1>RedЯum Lang</h1>
-        <Control code={code} setCode={setCode} setOutput={setOutput} />
+        <div className={style.taskBar}>
+            <h1 className={style.titleText}>RedЯum Lang</h1>
+            <Control code={code} setCode={setCode} setOutput={setOutput} />
+        </div>
         <CodeEditor code={code} onCode={onCode} />
         <Output output={output} />
     </main>;

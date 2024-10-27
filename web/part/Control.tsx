@@ -3,6 +3,8 @@ import { useState, useEffect, type Dispatch, type StateUpdater } from "preact/ho
 import redrum from "~/src/redrumlang";
 import examples from "~/web/part/examples";
 
+import * as style from '~/web/part/Control.module.css';
+
 interface ControlProps {
     code: string,
     setCode: Dispatch<StateUpdater<string>>,
@@ -55,8 +57,8 @@ export default function Control(props: ControlProps) {
         }
     }
 
-    return <div>
-        <button onClick={onExecute}>
+    return <>
+        <button onClick={onExecute} className={style.executeButton}>
             Execute
         </button>
 
@@ -68,11 +70,12 @@ export default function Control(props: ControlProps) {
             onFocus={onOpenSelect}
             onBlur={onOpenClose}
             value={example}
+            className={style.exampleSelect}
         >
             <option value="default" disabled>Example Programs</option>
             <option value="helloWorld">Hello World</option>
             <option value="fib">Fibonacci</option>
             <option value="tutorial">Tutorial</option>
         </select>
-    </div>
+    </>
 } 
