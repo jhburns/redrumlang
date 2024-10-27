@@ -14,4 +14,5 @@ body {
     height: 300px;
     overflow: scroll;
     text-wrap: nowrap;
+    white-space: pre-wrap;
 }

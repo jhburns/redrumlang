@@ -1,7 +1,17 @@
+import type { Dispatch, StateUpdater } from "preact/hooks";
+import redrum from "/src/redrumlang";
 
-export default function Control() {
+interface ControlProps {
+    code: string,
+    setOutput: Dispatch<StateUpdater<string>>,
+}
+
+export default function Control(props: ControlProps) {
     return <div>
-        <button>Execute</button>
+        <button onClick={() => props.setOutput(redrum(props.code))}>
+            Execute
+        </button>
+
         <button>Я</button>
 
         <select name="examples" id="examples">

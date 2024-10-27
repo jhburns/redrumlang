@@ -1,9 +1,10 @@
+interface OutputProps {
+    output: string
+}
 
-export default function Output() {
+
+export default function Output(props: OutputProps) {
     return <p className="output-text">
-        Test <br />
-        Test 1 <br />
-        Test 3 <br />
-        Test 4
+        {props.output}
     </p>
 } 
