@@ -62,8 +62,6 @@ export default function Control(props: ControlProps) {
             Execute
         </button>
 
-        {/* <button>Я</button> */}
-
         <select
             aria-label='Example Programs'
             onChange={onSelect}
@@ -73,7 +71,7 @@ export default function Control(props: ControlProps) {
             className={style.exampleSelect}
         >
             <option value="default" disabled>Example Programs</option>
-            <option value="helloWorld">Hello World</option>
+            <option value="helloWorld" >Hello World</option>
             <option value="fib">Fibonacci</option>
             <option value="tutorial">Tutorial</option>
         </select>

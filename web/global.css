@@ -2,6 +2,12 @@
 @import 'npm:sanitize.css/forms.css';
 @import 'npm:sanitize.css/typography.css';
 
+:root {
+    --primary: #FF6161;
+}
+
 body {
     font-family: "Tinos", serif;
+    color: var(--primary);
+    background-color: black;
 }

@@ -8,5 +8,5 @@
 
     margin-right: 1.5rem;
 
-    scrollbar-width: thin;
+    border-color: var(--primary);
 }

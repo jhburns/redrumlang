@@ -35,7 +35,8 @@ const tutorial =
 
   ;"\`not\`, bitwise \`or\`, and bitwise \`and\` for booleans"
   ;{3}tuo >| {}gnirts_ot_loob >| ton eslaf dna eslaf ro eurt
-  ;"Comparison operators are allow for integers, booleans, and strings when the arguments match type"
+  ;"Comparison operators are allowed for integers, booleans, and strings"
+  ;"Only when the argument types match"
   ;{4}tuo >| {}gnirts_ot_loob >| 1 = 1 dna "a" > "b" dna eslaf => eurt
 
   ;"Functions can be called directly"
