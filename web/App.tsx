@@ -18,7 +18,7 @@ export default function App() {
     }, [code]);
 
 
-    const [output, setOutput] = useState<string>('Waiting for output...');
+    const [output, setOutput] = useState<string>('Waiting for execution...');
 
     return <main className={style.mainBox}>
         <div className={style.taskBar}>

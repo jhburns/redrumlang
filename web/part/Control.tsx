@@ -21,7 +21,7 @@ const allExamples = new Map<string, Example>([
 
 export default function Control(props: ControlProps) {
     const onExecute = () => {
-        props.setOutput('Running...');
+        props.setOutput('Executing...');
 
         // This forces preact to debatch these updates
         setTimeout(() => props.setOutput(redrum(props.code)));

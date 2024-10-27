@@ -12,6 +12,10 @@
     cursor: pointer;
 }
 
+.executeButton:active {
+    outline: solid var(--primary);
+}
+
 .exampleSelect {
     max-height: 2.5rem;
     padding-left: 1rem;
@@ -24,4 +28,13 @@
     cursor: pointer;
 
     background-image: url("data:image/svg+xml;utf8,<svg fill='%23FF6161' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+}
+
+.exampleSelect:focus {
+    outline-color: var(--primary);
+}
+
+.exampleSelect:focus {
+    outline: solid var(--primary);
+    border-radius: 3px;
 }
