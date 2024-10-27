@@ -8,7 +8,7 @@ def
   ;"Semi-colon is required in-between each statement"
 
   ;"Addition, subtraction, multiplication, division, and conversion to string for integers"
-  ;{0}tuo >| {}gnirts_ot_regetni >| 2 \ (6 * 5) - 1 + 3
+  ;{0}tuo >| {}gnirts_ot_regetni >| 2  (6 * 5) - 1 + 3
   ;"Integers are written backwards, statement evaluation is also bottom to top"
   ;{1}tuo >| {}gnirts_ot_regetni >| 123-
   ;"Left shift, right shift, and negate"
@@ -48,7 +48,7 @@ def
     "detanimret" pots
   pool <- z tel
 
-  ;"Mutable state is possible with the `cell` type"
+  ;"Mutable state is possible with the cell type"
   ;{21}tuo >| {}teg >| tum 
   ;{tum}tes >| {"narama"}tacnoc >| {}teg >| tum 
   ;{"tac"}llec <- tum tel

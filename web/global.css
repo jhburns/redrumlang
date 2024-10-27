@@ -13,6 +13,5 @@ body {
 .output-text {
     height: 300px;
     overflow: scroll;
-    text-wrap: nowrap;
     white-space: pre-wrap;
 }

@@ -1,10 +1,10 @@
 const helloWorld =
-    `def
- {"dlroW olleH"}yas
+  `def
+  {"dlroW olleH"}yas
 od {}eraweb fed`;
 
 const fib =
-    `def
+  `def
   {}yas >| {}gnirts_ot_regetni >|{}bif >| 22
 od {}eraweb fed
 
@@ -17,7 +17,7 @@ def
 od {n}bif fed`;
 
 const tutorial =
-    `def
+  `def
   "The \`maercs\` function panics programs when illegal conditions happen"
   ;{"oob"}maercs
 
@@ -27,7 +27,7 @@ const tutorial =
   ;"Semi-colon is required in-between each statement"
 
   ;"Addition, subtraction, multiplication, division, and conversion to string for integers"
-  ;{0}tuo >| {}gnirts_ot_regetni >| 2 \ (6 * 5) - 1 + 3
+  ;{0}tuo >| {}gnirts_ot_regetni >| 2 \\ (6 * 5) - 1 + 3
   ;"Integers are written backwards, statement evaluation is also bottom to top"
   ;{1}tuo >| {}gnirts_ot_regetni >| 123-
   ;"Left shift, right shift, and negate"
