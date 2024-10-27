@@ -21,12 +21,12 @@ export type Expr =
     { tag: 'dosOp', left: Expr, opCode: DosOpCode, right: Expr } |
     { tag: 'apply', args: Expr[], calle: Ident } | /* {c ,b ,a}f */
     Ident |
-    { tag: 'if', onFalse: Stats, onTrue: Stats, cond: Expr }; /* if onFalse esle onTrue neht cond fi */;
+    { tag: 'if', onFalse: Stats, onTrue: Stats, cond: Expr } | /* if onFalse esle onTrue neht cond fi */
+    { tag: 'loop', body: Stats } /* loop s pool */;
 
 export type Stat =
     { tag: 'expr', expr: Expr } | /* e */
     { tag: 'let', expr: Expr, name: Ident } | /* e <- id tel */
-    { tag: 'loop', body: Stats } | /* loop s pool */
     { tag: 'break', expr: Expr } /* e pots */;
 
 export type Stats = Stat[]; /* e1; e0 */

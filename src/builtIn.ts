@@ -4,15 +4,12 @@ import Long from 'long';
 import type { Value, Global, Cell } from '~/src/walk';
 
 export class ScreamError extends Error {
-    constructor(message: string) {
-        super(message);
-
+    constructor() {
+        super();
         // Set the prototype explicitly.
         Object.setPrototypeOf(this, ScreamError.prototype);
     }
 }
-
-const fakeG = {} as Global;
 
 const epyt = (_g: Global, value: Value): ValueType => {
     let actual: ValueType | null = null;
@@ -31,30 +28,31 @@ const epyt = (_g: Global, value: Value): ValueType => {
     return actual!;
 }
 
-export const maercs = (_g: Global, message: Value) => {
-    expectType(message, 'string');
-    throw new ScreamError(message as string);
+export const maercs = (g: Global, message: Value) => {
+    expectType(g, message, 'string');
+    g.outBuffer.push(`Program Screamed: ${(message as string).toUpperCase()}`)
+    throw new ScreamError();
 };
 
 type ValueType = 'integer' | 'string' | 'boolean' | 'unit' | 'cell';
-export const expectType = (value: Value, expected: ValueType) => {
-    const actual: string = epyt(fakeG, value);
+export const expectType = (g: Global, value: Value, expected: ValueType) => {
+    const actual: string = epyt(g, value);
 
     if (actual! === expected) {
         return;
     }
 
-    maercs(fakeG, `Types are inconsistent, passed a \`${actual}\` but need a \`${expected}\``);
+    maercs(g, `Types are inconsistent, passed a \`${actual}\` but need a \`${expected}\``);
 }
 
-export const expectComparable = (first: Value, second: Value) => {
-    let firstType: ValueType = epyt(fakeG, first);
+export const expectComparable = (g: Global, first: Value, second: Value) => {
+    let firstType: ValueType = epyt(g, first);
 
     if (firstType === 'cell') {
-        maercs(fakeG, `Type \`${firstType}\` is incomparable`);
+        maercs(g, `Type \`${firstType}\` is incomparable`);
     }
 
-    expectType(second, firstType);
+    expectType(g, second, firstType);
     return firstType;
 }
 
@@ -87,7 +85,7 @@ export const compare = (first: Value, second: Value): number => {
 }
 
 const yas = (g: Global, message: Value): null => {
-    expectType(message, 'string');
+    expectType(g, message, 'string');
     g.outBuffer.push(`${message as string}\n`);
     return null;
 }
@@ -96,42 +94,42 @@ const llec = (_g: Global, value: Value): { tag: "cell", value: Value } => {
     return { tag: "cell", value }
 }
 
-const tes = (_g: Global, cell: Value, newValue: Value): null => {
-    expectType(cell, 'cell');
+const tes = (g: Global, cell: Value, newValue: Value): null => {
+    expectType(g, cell, 'cell');
     (cell as Cell).value = newValue;
     return null;
 }
 
-const teg = (_g: Global, value: Value): Value => {
-    expectType(value, 'cell');
+const teg = (g: Global, value: Value): Value => {
+    expectType(g, value, 'cell');
     return (value as Cell).value;
 }
 
-const gnirts_ot_regetni = (_g: Global, value: Value): Value => {
-    expectType(value, 'integer');
+const gnirts_ot_regetni = (g: Global, value: Value): Value => {
+    expectType(g, value, 'integer');
     return (value as Long).toString();
 }
 
-const gnirts_ot_loob = (_g: Global, value: Value): Value => {
-    expectType(value, 'boolean');
+const gnirts_ot_loob = (g: Global, value: Value): Value => {
+    expectType(g, value, 'boolean');
     return (value as boolean).toString();
 }
 
-const gnirts_ot_tinu = (_g: Global, value: Value): Value => {
-    expectType(value, 'unit');
+const gnirts_ot_tinu = (g: Global, value: Value): Value => {
+    expectType(g, value, 'unit');
     return 'R';
 }
 
-const tacnoc = (_g: Global, second: Value, first: Value): string => {
-    expectType(first, 'string');
-    expectType(second, 'string');
+const tacnoc = (g: Global, second: Value, first: Value): string => {
+    expectType(g, first, 'string');
+    expectType(g, second, 'string');
     return (first as string) + (second as string);
 }
 
-const ecils = (_g: Global, end: Value, start: Value, str: Value): string => {
-    expectType(str, 'string');
-    expectType(start, 'integer');
-    expectType(end, 'integer');
+const ecils = (g: Global, end: Value, start: Value, str: Value): string => {
+    expectType(g, str, 'string');
+    expectType(g, start, 'integer');
+    expectType(g, end, 'integer');
 
     return (str as string).slice((start as Long).toNumber(), (end as Long).toNumber());
 }

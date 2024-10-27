@@ -18,7 +18,6 @@ statements
 
 statement
   = let
-  / loop
   / break
   / exprStat
 
@@ -37,13 +36,6 @@ exprStat
     }
   }
 
-loop
-  = "loop" _ body:statements _ "pool" { return {
-	  tag: "loop",
-      body,
-    }
-  }
-  
 break
   = expr:expr _ "pots" { return { tag: "break", expr } }
 
@@ -104,6 +96,14 @@ apply "function application"
     }
   }
 
+loop
+  = "loop" _ body:statements _ "pool" { return {
+	  tag: "loop",
+      body,
+    }
+  }
+
+
 if "if"
   = "if" _ onFalse:statements _ "esle" _ onTrue:statements _ "neht" _ cond:expr _ "fi" { return {
       tag: 'if',
@@ -114,7 +114,7 @@ if "if"
   }
 
 primary
-  = integer / string / boolean / unit / apply / if
+  = integer / string / boolean / unit / apply / if / loop
   / "(" _ expr:pipe _ ")" { return expr; }
   / op:("ton" / "gen") _ left:expr { 
       return { 
@@ -159,7 +159,7 @@ addSub
   / mulDiv
 
 equals
-  = left:addSub _ op:("=" / ">" / "<" / "=>" / "=<") _ right:equals {
+  = left:addSub _ op:(">" / "<" / "=>" / "=<" / "=") _ right:equals {
   	let opCode = null;
     
     if (op === "=") {

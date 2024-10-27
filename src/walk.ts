@@ -42,11 +42,11 @@ const walkUna = (g: Global, opCode: UnaOpCode, expr: Expr): Value => {
     const value = walkExpr(g, expr);
     switch (opCode) {
         case 'bitNot': {
-            expectType(value, 'boolean');
+            expectType(g, value, 'boolean');
             return !(value as boolean);
         }
         case 'neg': {
-            expectType(value, 'integer');
+            expectType(g, value, 'integer');
             return (value as Long).negate();
         }
     }
@@ -56,92 +56,92 @@ const walkDos = (g: Global, left: Expr, opCode: DosOpCode, right: Expr): Value =
     switch (opCode) {
         case 'leftShift': {
             const rightValue = walkExpr(g, right);
-            expectType(rightValue, 'integer');
+            expectType(g, rightValue, 'integer');
             const leftValue = walkExpr(g, left);
-            expectType(leftValue, 'integer');
+            expectType(g, leftValue, 'integer');
             return (rightValue as Long).shiftLeft(leftValue as Long);
         }
         case 'rightShift': {
             const rightValue = walkExpr(g, right);
-            expectType(rightValue, 'integer');
+            expectType(g, rightValue, 'integer');
             const leftValue = walkExpr(g, left);
-            expectType(leftValue, 'integer');
+            expectType(g, leftValue, 'integer');
             return (rightValue as Long).shiftRight(leftValue as Long);
         }
         case 'mul': {
             const rightValue = walkExpr(g, right);
-            expectType(rightValue, 'integer');
+            expectType(g, rightValue, 'integer');
             const leftValue = walkExpr(g, left);
-            expectType(leftValue, 'integer');
+            expectType(g, leftValue, 'integer');
             return (rightValue as Long).mul(leftValue as Long);
         }
         case 'div': {
             const rightValue = walkExpr(g, right);
-            expectType(rightValue, 'integer');
+            expectType(g, rightValue, 'integer');
             const leftValue = walkExpr(g, left);
-            expectType(leftValue, 'integer');
+            expectType(g, leftValue, 'integer');
             return (rightValue as Long).div(leftValue as Long);
         }
         case 'add': {
             const rightValue = walkExpr(g, right);
-            expectType(rightValue, 'integer');
+            expectType(g, rightValue, 'integer');
             const leftValue = walkExpr(g, left);
-            expectType(leftValue, 'integer');
+            expectType(g, leftValue, 'integer');
             return (rightValue as Long).add(leftValue as Long);
         }
         case 'sub': {
             const rightValue = walkExpr(g, right);
-            expectType(rightValue, 'integer');
+            expectType(g, rightValue, 'integer');
             const leftValue = walkExpr(g, left);
-            expectType(leftValue, 'integer');
+            expectType(g, leftValue, 'integer');
             return (rightValue as Long).sub(leftValue as Long);
         }
         case 'eq': {
             const rightValue = walkExpr(g, right);
             const leftValue = walkExpr(g, left);
-            expectComparable(rightValue, leftValue);
+            expectComparable(g, rightValue, leftValue);
             return compare(rightValue, leftValue) === 0;
         }
         case 'lessThan': {
             const rightValue = walkExpr(g, right);
             const leftValue = walkExpr(g, left);
-            expectComparable(rightValue, leftValue);
+            expectComparable(g, rightValue, leftValue);
             const comparison = compare(rightValue, leftValue);
             return comparison < 0;
         }
         case 'greaterThan': {
             const rightValue = walkExpr(g, right);
             const leftValue = walkExpr(g, left);
-            expectComparable(rightValue, leftValue);
+            expectComparable(g, rightValue, leftValue);
             const comparison = compare(rightValue, leftValue);
             return comparison > 0;
         }
         case 'lessThanEq': {
             const rightValue = walkExpr(g, right);
             const leftValue = walkExpr(g, left);
-            expectComparable(rightValue, leftValue);
+            expectComparable(g, rightValue, leftValue);
             const comparison = compare(rightValue, leftValue);
             return comparison < 0 || comparison === 0;
         }
         case 'greaterThanEq': {
             const rightValue = walkExpr(g, right);
             const leftValue = walkExpr(g, left);
-            expectComparable(rightValue, leftValue);
+            expectComparable(g, rightValue, leftValue);
             const comparison = compare(rightValue, leftValue);
             return comparison > 0 || comparison === 0;
         }
         case 'bitAnd': {
             const rightValue = walkExpr(g, right);
-            expectType(rightValue, 'boolean');
+            expectType(g, rightValue, 'boolean');
             const leftValue = walkExpr(g, left);
-            expectType(leftValue, 'boolean');
+            expectType(g, leftValue, 'boolean');
             return (rightValue as boolean) && (leftValue as boolean);
         }
         case 'bitOr': {
             const rightValue = walkExpr(g, right);
-            expectType(rightValue, 'boolean');
+            expectType(g, rightValue, 'boolean');
             const leftValue = walkExpr(g, left);
-            expectType(leftValue, 'boolean');
+            expectType(g, leftValue, 'boolean');
             return (rightValue as boolean) || (leftValue as boolean);
         }
         case 'pipe': {
@@ -279,6 +279,22 @@ const walkExpr = (g: Global, expr: Expr): Value => {
             g.vars = oldVars;
             return result!;
         }
+        case 'loop':
+            const oldVars = g.vars;
+
+            try {
+                while (true) {
+                    walkStats(g, expr.body);
+                }
+            } catch (err: unknown) {
+                if (err instanceof BreakError) {
+                    return err.value;
+                }
+
+                throw err;
+            } finally {
+                g.vars = oldVars;
+            }
     }
 }
 
@@ -307,22 +323,6 @@ const walkStat = (g: Global, stat: Stat): Value => {
             const value = walkExpr(g, stat.expr);
             throw new BreakError(value);
         };
-        case 'loop':
-            const oldVars = g.vars;
-
-            try {
-                while (true) {
-                    walkStats(g, stat.body);
-                }
-            } catch (err: unknown) {
-                if (err instanceof BreakError) {
-                    return err.value;
-                }
-
-                throw err;
-            } finally {
-                g.vars = oldVars;
-            }
     }
 }
 
@@ -359,7 +359,7 @@ const walk = (ast: Ast): string => {
         }
 
         if (err instanceof ScreamError) {
-            return `Program Screamed: ${err.message.toUpperCase()}`;
+            return g.outBuffer.join('');
         }
 
         return `Bug Error: you should not see this \n...\nstack=${(err as Error).stack}`;

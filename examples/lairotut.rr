@@ -1,6 +1,64 @@
 def
-  {"a" ,3}tuo
+  "Panic programs when illegal conditions happen with maercs"
+  ;{"oob"}maercs
+
+  ;"Print with yas function"
+  ;{"dlroW olleH"}yas
+
+  ;"Semi-colon is required in-between each statement"
+
+  ;"Addition, subtraction, multiplication, division, and conversion to string for integers"
+  ;{0}tuo >| {}gnirts_ot_regetni >| 2 \ (6 * 5) - 1 + 3
+  ;"Integers are written backwards, statement evaluation is also bottom to top"
+  ;{1}tuo >| {}gnirts_ot_regetni >| 123-
+  ;"Left shift, right shift, and negate"
+  ;{2}tuo >| {}gnirts_ot_regetni >| (gen 1-) << 10 >> 2
+
+  ;"`not`, bitwise `or`, and bitwise `and` for booleans"
+  ;{3}tuo >| {}gnirts_ot_loob >| ton eslaf dna eslaf ro eurt
+  ;"Comparison operators are allow for integers, booleans, and strings when the arguments match type"
+  ;{4}tuo >| {}gnirts_ot_loob >| 1 = 1 dna "a" > "b" dna eslaf => eurt
+
+  ;"Functions can be called directly"
+  ;{5 ,{42 ,54}dda}tuo
+  ;"Or using a pipe, in that case the argument is passed as the first parameter"
+  ;{6}tuo >| {02}dda >| {}di >| 004
+
+  ;"Strings have a couple utility functions"
+  ;{7}tuo >| {"tso"}tacnoc >| {2 ,0}ecils >| "taog"
+  ;{8}tuo >| {}gnirts_ot_loob >| "tinu" = {Я}epyt
+
+  ;"Variables are statements, immutable, and also shadow"
+  ;{9 ,x}tuo
+  ;"a" <- x tel 
+  ;"b" <- x tel
+
+  ;"`if` is declarative and returns the last statement from the branch"
+  ;{01 ,y}tuo
+  ;if
+    "taert"
+  esle
+    "kcirt"
+  neht eurt fi <- y tel
+
+  ;"`loop` is declarative and runs forever"
+  ;"`stop` is a statement and returns a value when breaking the loop"
+  ;{11 ,z}tuo
+  ;loop
+    "detanimret" pots
+  pool <- z tel
+
+  ;"Mutable state is possible with the `cell` type"
+  ;{21}tuo >| {}teg >| tum 
+  ;{tum}tes >| {"narama"}tacnoc >| {}teg >| tum 
+  ;{"tac"}llec <- tum tel
+  
 od {}eraweb fed
+
+def
+ {b + a}gnirts_ot_regetni
+ ;"The last statement of a function gets returned"
+od {b ,a}dda fed
 
 def
   {}yas 
@@ -8,4 +66,4 @@ def
   >| {" :"}tacnoc 
   >| {{n}gnirts_ot_regetni}tacnoc
   >| " tuptuO"
-od {s ,n}tuo fed
+od {n ,s}tuo fed
