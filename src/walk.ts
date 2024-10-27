@@ -341,11 +341,11 @@ const walk = (ast: Ast): string => {
 
     const entry = fns.get('eraweb');
     if (entry === undefined) {
-        return 'Execution Error: no `beware` entrypoint function defined';
+        return 'Execution Error: no `eraweb` entrypoint function defined';
     }
 
     if (entry.params.length > 0) {
-        return 'Execution Error: `beware` entrypoint function must have 0 parameters';
+        return 'Execution Error: `eraweb` entrypoint function must have 0 parameters';
     }
 
     const g: Global = { fns, vars: Map(), outBuffer: [] };

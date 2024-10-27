@@ -9,7 +9,7 @@ export default function App() {
     // Preact does not provide the correct type to correctly check 'value'
     const onCode = (e: any) => setCode(e.target.value);
 
-    const [output, setOutput] = useState<string>('');
+    const [output, setOutput] = useState<string>('Waiting for output...');
 
     return <main className='main-box'>
         <h1>RedЯum Lang</h1>

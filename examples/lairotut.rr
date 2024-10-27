@@ -53,7 +53,7 @@ def
   ;{tum}tes >| {"narama"}tacnoc >| {}teg >| tum 
   ;{"tac"}llec <- tum tel
   
-  ;"The entry function has to be called `eraweb`"
+  ;"The entry function must be called `eraweb`"
 od {}eraweb fed
 
 def
