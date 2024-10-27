@@ -14,7 +14,7 @@ export default function Control(props: ControlProps) {
 
         <button>Я</button>
 
-        <select name="examples" id="examples">
+        <select name="examples" aria-label='Example Programs'>
             <option value="helloWorld">Hello World</option>
             <option value="fib">Fibonacci</option>
             <option value="tutorial">Tutorial</option>

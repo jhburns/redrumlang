@@ -11,5 +11,6 @@ export default function CodeEditor(props: CodeEditorProps) {
         autocorrect="off"
         autocapitalize="off"
         spellcheck={false}
+        aria-label="Code Editor"
     />
 } 
