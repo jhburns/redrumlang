@@ -1,6 +1,9 @@
 .mainBox {
     height: 100vh;
     padding: 3rem;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .titleText {
@@ -11,4 +14,12 @@
 .taskBar {
     display: flex;
     align-items: center;
+
+    margin-bottom: 0.5rem;
+}
+
+.editorBox {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
 }

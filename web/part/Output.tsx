@@ -7,5 +7,5 @@ interface OutputProps {
 export default function Output(props: OutputProps) {
     return <p className={style.outputText}>
         {props.output}
-    </p>
+    </p>;
 } 

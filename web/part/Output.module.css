@@ -1,5 +1,15 @@
 .outputText {
-    height: 300px;
+    height: auto;
+
     overflow: scroll;
     white-space: pre-wrap;
+
+    font-size: 17px;
+
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    flex: 1;
+
+    scrollbar-width: thin;
 }

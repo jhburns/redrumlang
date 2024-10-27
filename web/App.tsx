@@ -25,7 +25,10 @@ export default function App() {
             <h1 className={style.titleText}>RedЯum Lang</h1>
             <Control code={code} setCode={setCode} setOutput={setOutput} />
         </div>
-        <CodeEditor code={code} onCode={onCode} />
-        <Output output={output} />
+
+        <div className={style.editorBox}>
+            <CodeEditor code={code} onCode={onCode} />
+            <Output output={output} />
+        </div>
     </main>;
 }
