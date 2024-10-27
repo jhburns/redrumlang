@@ -12,7 +12,7 @@ export default function Control(props: ControlProps) {
             Execute
         </button>
 
-        <button>Я</button>
+        {/* <button>Я</button> */}
 
         <select name="examples" aria-label='Example Programs'>
             <option value="helloWorld">Hello World</option>

@@ -1,9 +1,9 @@
 def
-  "Panic programs when illegal conditions happen with maercs"
+  "The `maercs` function panics programs when illegal conditions happen"
   ;{"oob"}maercs
 
   ;"Print with yas function"
-  ;{"dlroW olleH"}yas
+  ;{"!!!eraweB"}yas
 
   ;"Semi-colon is required in-between each statement"
 
@@ -20,11 +20,11 @@ def
   ;{4}tuo >| {}gnirts_ot_loob >| 1 = 1 dna "a" > "b" dna eslaf => eurt
 
   ;"Functions can be called directly"
-  ;{5 ,{42 ,54}dda}tuo
+  ;{5 ,{055 ,5}dda}tuo
   ;"Or using a pipe, in that case the argument is passed as the first parameter"
-  ;{6}tuo >| {02}dda >| {}di >| 004
+  ;{6}tuo >| {77}dda >| {}di >| 007
 
-  ;"Strings have a couple utility functions"
+  ;"Utility functions for strings"
   ;{7}tuo >| {"tso"}tacnoc >| {2 ,0}ecils >| "taog"
   ;{8}tuo >| {}gnirts_ot_loob >| "tinu" = {Я}epyt
 
@@ -53,11 +53,12 @@ def
   ;{tum}tes >| {"narama"}tacnoc >| {}teg >| tum 
   ;{"tac"}llec <- tum tel
   
+  ;"The entry function has to be called `eraweb`"
 od {}eraweb fed
 
 def
  {b + a}gnirts_ot_regetni
- ;"The last statement of a function gets returned"
+ ;"The last statement of a function is returned"
 od {b ,a}dda fed
 
 def
