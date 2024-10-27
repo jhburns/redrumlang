@@ -17,13 +17,14 @@
     "scratch": "yarn tsx src/scratch",
     "interpret": "yarn parser; yarn typecheck; yarn scratch",
     "start": "yarn parcel",
-    "build": "yarn parcel build",
+    "build": "yarn typecheck; parcel build",
     "prod": "yarn build; yarn serve dist/"
   },
   "dependencies": {
     "immutable": "^4.3.7",
     "long": "^5.2.3",
     "peggy": "^4.1.1",
+    "preact": "^10.24.3",
     "sanitize.css": "^13.0.0"
   },
   "devDependencies": {
@@ -34,5 +35,11 @@
     "serve": "^14.2.4",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3"
+  },
+  "alias": {
+    "react": "preact/compat",
+    "react-dom/test-utils": "preact/test-utils",
+    "react-dom": "preact/compat",
+    "react/jsx-runtime": "preact/jsx-runtime"
   }
 }
