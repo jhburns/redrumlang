@@ -1,3 +1,3 @@
 # redrumlang
 
-Try it out - <a href="[example.com](https://redrum.netlify.app)" target="_blank">Open Playground</a>
+Try it out - <a href="https://redrum.netlify.app" target="_blank">Open Playground</a>
