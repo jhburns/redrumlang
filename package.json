@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "spooky scary language",
   "author": "Jonathan Burns",
-  "license": "MIT",
+  "license": "SSPL-1.0",
   "private": false,
   "type": "module",
   "source": "web/index.html",
