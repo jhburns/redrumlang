@@ -17,8 +17,9 @@
     "scratch": "yarn tsx src/scratch",
     "interpret": "yarn parser; yarn typecheck; yarn scratch",
     "start": "yarn parcel",
-    "build": "yarn parser; yarn typecheck; parcel build",
-    "prod": "yarn build; yarn serve dist/"
+    "copy": "cp -R web/static/* dist/",
+    "build": "yarn parser; yarn typecheck; parcel build; yarn copy",
+    "prod": "yarn build; yarn serve dist/; yarn copy"
   },
   "dependencies": {
     "immutable": "^4.3.7",
