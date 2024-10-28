@@ -38,3 +38,8 @@
     outline: solid var(--primary);
     border-radius: 3px;
 }
+
+.programOption {
+    color: black;
+    background-color: var(--primary);
+}

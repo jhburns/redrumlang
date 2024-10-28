@@ -10,4 +10,6 @@ body {
     font-family: "Tinos", serif;
     color: var(--primary);
     background-color: black;
+
+    scrollbar-color: black var(--primary);
 }

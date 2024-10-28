@@ -70,10 +70,10 @@ export default function Control(props: ControlProps) {
             value={example}
             className={style.exampleSelect}
         >
-            <option value="default" disabled>Example Programs</option>
-            <option value="helloWorld" >Hello World</option>
-            <option value="fib">Fibonacci</option>
-            <option value="tutorial">Tutorial</option>
+            <option value="default" disabled hidden className={style.programOption}>Example Programs</option>
+            <option value="helloWorld" className={style.programOption}>Hello World</option>
+            <option value="fib" className={style.programOption}>Fibonacci</option>
+            <option value="tutorial" className={style.programOption}>Tutorial</option>
         </select>
     </>
 } 
