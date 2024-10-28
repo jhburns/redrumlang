@@ -9,6 +9,7 @@ interface ControlProps {
     code: string,
     setCode: Dispatch<StateUpdater<string>>,
     setOutput: Dispatch<StateUpdater<string>>,
+    setIsScared: Dispatch<StateUpdater<boolean>>
 }
 
 type Example = 'default' | 'helloWorld' | 'fib' | 'tutorial';
@@ -23,8 +24,24 @@ export default function Control(props: ControlProps) {
     const onExecute = () => {
         props.setOutput('Executing...');
 
+        const run = () => {
+            const output = redrum(props.code)
+            props.setOutput(output);
+
+            if (!output.includes('Error') && !output.includes('Scream')) {
+                return;
+            }
+
+            if (Math.random() > 0.25) {
+                return;
+            }
+
+            props.setIsScared(true);
+            setTimeout(() => props.setIsScared(false), 2 * 1000);
+        }
+
         // This forces preact to debatch these updates
-        setTimeout(() => props.setOutput(redrum(props.code)));
+        setTimeout(run);
     }
 
     const [example, setExample] = useState<Example>('default');

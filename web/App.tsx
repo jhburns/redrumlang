@@ -4,6 +4,7 @@ import Control from '~/web/part/Control';
 import CodeEditor from '~/web/part/CodeEditor';
 import Output from '~/web/part/Output';
 import examples from "~/web/part/examples";
+import Vid from "~/web/part/Vid";
 
 import * as style from '~/web/App.module.css';
 
@@ -20,15 +21,24 @@ export default function App() {
 
     const [output, setOutput] = useState<string>('Waiting for execution...');
 
+    const [isScared, setIsScared] = useState<boolean>(false);
+
     return <main className={style.mainBox}>
         <div className={style.taskBar}>
             <h1 className={style.titleText}>RedЯum Lang</h1>
-            <Control code={code} setCode={setCode} setOutput={setOutput} />
+            <Control
+                code={code}
+                setCode={setCode}
+                setOutput={setOutput}
+                setIsScared={setIsScared}
+            />
         </div>
 
         <div className={style.editorBox}>
             <CodeEditor code={code} onCode={onCode} />
             <Output output={output} />
         </div>
+
+        {isScared && <Vid />}
     </main>;
 }
