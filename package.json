@@ -17,7 +17,7 @@
     "scratch": "yarn tsx src/scratch",
     "interpret": "yarn parser; yarn typecheck; yarn scratch",
     "start": "yarn parcel",
-    "build": "yarn typecheck; parcel build",
+    "build": "yarn parser; yarn typecheck; parcel build",
     "prod": "yarn build; yarn serve dist/"
   },
   "dependencies": {
